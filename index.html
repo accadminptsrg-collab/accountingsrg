@@ -57,14 +57,14 @@
       box-shadow: 0 30px 60px -12px rgba(6, 55, 45, 0.12);
     }
 
-    /* CARD THEMES BERDASARKAN GAMBAR REFERENSI */
+    /* CARD THEMES */
     .card-soft-gold { background: linear-gradient(135deg, rgba(253, 250, 240, 0.95) 0%, rgba(226, 194, 141, 0.4) 100%); border: 1px solid rgba(177, 144, 83, 0.4); }
     .card-soft-green { background: linear-gradient(135deg, rgba(236, 253, 245, 0.95) 0%, rgba(6, 55, 45, 0.15) 100%); border: 1px solid rgba(6, 55, 45, 0.2); }
     .card-pekat-green { background: linear-gradient(135deg, #06372d 0%, #04261f 100%); color: #b19053; border: 1px solid #b19053; }
     .card-soft-orange { background: linear-gradient(135deg, rgba(255, 247, 237, 0.95) 0%, rgba(249, 115, 22, 0.2) 100%); border: 1px solid rgba(249, 115, 22, 0.3); }
     .card-soft-red { background: linear-gradient(135deg, rgba(254, 242, 242, 0.95) 0%, rgba(239, 68, 68, 0.1) 100%); border: 1px solid rgba(239, 68, 68, 0.3); }
 
-    .capsule-input { border-radius: 9999px; border: 1px solid #e2e8f0; background: white; outline: none; }
+    .capsule-input { border-radius: 1.5rem; border: 1px solid #e2e8f0; background: white; outline: none; }
     .capsule-input:focus { border-color: var(--srg-gold); box-shadow: 0 0 0 4px rgba(177, 144, 83, 0.1); }
 
     .nav-floating { backdrop-filter: blur(25px); background: rgba(255, 253, 245, 0.92); border: 1px solid rgba(177, 144, 83, 0.2); box-shadow: 0 15px 30px -5px rgba(0,0,0,0.1); }
@@ -72,7 +72,7 @@
 
     .btn-premium { border-radius: 9999px; background: #06372d; color: #b19053 !important; font-weight: 800; text-transform: uppercase; }
     
-    .loader { border: 4px solid #f3f3f3; border-top: 4px solid var(--srg-gold); border-radius: 50%; width: 40px; height: 40px; animation: spinner 1.2s linear infinite; }
+    .loader { border-radius: 50%; border: 4px solid #f3f3f3; border-top: 4px solid var(--srg-gold); width: 40px; height: 40px; animation: spinner 1.2s linear infinite; }
     @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     @media print { .no-print { display: none !important; } }
   </style>
@@ -95,13 +95,12 @@
           <p class="text-srg-gold text-[10px] font-black tracking-[0.4em] uppercase mt-2 italic">ELITE FINANCIAL SYSTEM</p>
       </div>
       <div class="space-y-6 text-left max-w-xs mx-auto">
-        <div><label class="block text-[10px] font-black text-slate-400 uppercase mb-2 ml-4 tracking-widest italic">ID PENGGUNA</label><input type="text" id="userInput" class="capsule-input w-full px-8 py-5 font-bold text-sm" placeholder="username"></div>
+        <div><label class="block text-[10px] font-black text-slate-400 uppercase mb-2 ml-4 tracking-widest italic">ID PENGGUNA</label><input type="text" id="userInput" class="capsule-input w-full px-8 py-5 font-bold text-sm text-slate-800" placeholder="username"></div>
         <div class="relative">
             <label class="block text-[10px] font-black text-slate-400 uppercase mb-2 ml-4 tracking-widest italic">KATA SANDI</label>
             <input type="password" id="passInput" class="capsule-input w-full px-8 py-5 font-bold text-sm pr-14" placeholder="password">
-            <button onclick="togglePass()" class="absolute right-6 top-[2.4rem] text-slate-400"><i id="passIcon" class="fas fa-eye"></i></button>
+            <button onclick="togglePass()" class="absolute right-6 top-[2.4rem] text-slate-400 hover:text-srg-gold"><i id="passIcon" class="fas fa-eye"></i></button>
         </div>
-        <!-- SIMPAN ID & KATA SANDI (DIKEMBALIKAN) -->
         <div class="flex items-center space-x-3 ml-4">
             <input type="checkbox" id="remMe" class="w-4 h-4 rounded border-gray-300 text-srg-green focus:ring-srg-gold cursor-pointer">
             <label for="remMe" class="text-[9px] font-black text-slate-400 uppercase tracking-widest cursor-pointer italic">SIMPAN ID & KATA SANDI</label>
@@ -114,11 +113,11 @@
 
   <!-- MAIN CONTENT -->
   <div id="mainSection" class="hidden">
-    <!-- NAVBAR FLOATING -->
-    <div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[1000] w-[92%] max-w-2xl no-print">
+    <!-- NAVBAR FLOATING DI ATAS -->
+    <div class="fixed top-8 left-1/2 -translate-x-1/2 z-[1000] w-[92%] max-w-2xl no-print">
         <nav class="nav-floating rounded-full p-2 flex justify-between items-center px-6">
           <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 bg-srg-green rounded-full flex items-center justify-center text-srg-gold border border-srg-gold/30"><span class="font-black text-[10px] italic">SRG</span></div>
+              <div class="w-10 h-10 bg-srg-green rounded-full flex items-center justify-center text-srg-gold border border-srg-gold/30 shadow-md"><span class="font-black text-[10px] italic">SRG</span></div>
               <p class="text-srg-green font-black text-[11px] leading-tight italic uppercase hidden sm:block">PT SR GROUP</p>
           </div>
           <div class="flex bg-slate-100/50 p-1 rounded-full">
@@ -134,8 +133,8 @@
         </nav>
     </div>
 
-    <main class="mx-auto py-24 px-6 w-full max-w-7xl">
-      <!-- DASHBOARD (IMAGE_5EC84B) -->
+    <main class="mx-auto py-24 px-6 w-full max-w-7xl mt-12">
+      <!-- DASHBOARD -->
       <div id="page-dashboard" class="space-y-12">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div><p class="text-srg-gold text-[10px] font-black uppercase tracking-[0.5em] italic">Strategic Financial Dashboard</p><h2 class="text-5xl font-black text-srg-green italic uppercase tracking-tighter">OVERVIEW KEUANGAN</h2></div>
@@ -151,21 +150,21 @@
         </div>
       </div>
 
-      <!-- INPUT / CEK DATA MITRA (IMAGE_5EC8E7) -->
+      <!-- INPUT -->
       <div id="page-input" class="hidden">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
             <div class="lg:col-span-7 capsule-card p-12 md:p-16">
                 <h2 class="text-5xl font-black text-srg-green italic uppercase mb-12">CEK DATA MITRA</h2>
                 <div class="grid grid-cols-2 gap-8 mb-10">
                   <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-3 block">Tanggal Laporan</label><input type="date" id="f-tgl" class="capsule-input w-full p-5 font-bold text-sm uppercase bg-gray-50/50"></div>
-                  <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-3 block">Identitas Mitra</label><select id="f-mtr" class="capsule-input w-full p-5 font-bold text-sm outline-none bg-gray-50/50"></select></div>
+                  <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-3 block">Identitas Mitra</label><select id="f-mtr" onchange="setupMitraForm()" class="capsule-input w-full p-5 font-bold text-sm outline-none bg-gray-50/50"></select></div>
                 </div>
-                <div id="mitraForm" class="hidden space-y-8 pt-8 border-t border-slate-100">
+                <div id="mitraFormArea" class="hidden space-y-8 pt-8 border-t border-slate-100">
                     <div class="grid grid-cols-2 gap-8">
-                        <input type="number" id="f-oms" oninput="liveCalc()" placeholder="Omset" class="capsule-input w-full p-5 font-bold text-sm">
-                        <input type="number" id="f-mod" oninput="liveCalc()" placeholder="Modal Produksi" class="capsule-input w-full p-5 font-bold text-sm">
+                        <input type="number" id="f-oms" oninput="liveCalc()" placeholder="Omset" class="capsule-input w-full p-5 font-bold text-sm bg-white">
+                        <input type="number" id="f-mod" oninput="liveCalc()" placeholder="Modal Produksi" class="capsule-input w-full p-5 font-bold text-sm bg-white">
                     </div>
-                    <input type="number" id="f-ops" oninput="liveCalc()" placeholder="Biaya Operasional" class="capsule-input w-full p-5 font-bold text-sm">
+                    <input type="number" id="f-ops" oninput="liveCalc()" placeholder="Biaya Operasional" class="capsule-input w-full p-5 font-bold text-sm bg-white">
                     <textarea id="f-ket" class="capsule-input w-full p-6 text-sm italic min-h-[140px] resize-none" placeholder="Keterangan Detail Operasional..."></textarea>
                     <button onclick="submitData()" class="btn-premium w-full py-6 text-sm tracking-widest italic">SIMPAN LAPORAN</button>
                 </div>
@@ -179,15 +178,20 @@
                 <div id="cekResultCards" class="space-y-4 pt-10 border-t border-slate-100">
                     <div class="card-pekat-green p-10 rounded-[2.5rem] text-center"><p class="text-[9px] font-black uppercase opacity-70 mb-2">TOTAL OMSET</p><h4 id="c-res-oms" class="text-4xl font-black italic">Rp 0</h4></div>
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="card-pekat-green p-6 rounded-[2rem] text-center"><p class="text-[8px] font-black uppercase mb-1 opacity-60">BAGIAN PT (20%)</p><h5 id="c-res-pt" class="text-sm font-black">Rp 0</h5></div>
-                        <div class="card-soft-gold p-6 rounded-[2rem] text-center text-orange-700 border-orange-200"><p class="text-[8px] font-black uppercase mb-1 opacity-70">BAGIAN MITRA (80%)</p><h5 id="c-res-mtr" class="text-sm font-black">Rp 0</h5></div>
+                        <div class="card-pekat-green p-6 rounded-[2rem] text-center"><p class="text-[8px] font-black uppercase mb-1 opacity-60">Pembagian PT (20%)</p><h5 id="c-res-pt" class="text-sm font-black">Rp 0</h5></div>
+                        <div class="card-soft-gold p-6 rounded-[2rem] text-center text-orange-700 border-orange-200"><p class="text-[8px] font-black uppercase mb-1 opacity-70">Pembagian Mitra (80%)</p><h5 id="c-res-mtr" class="text-sm font-black">Rp 0</h5></div>
+                    </div>
+                    <!-- BARU: Laba Bersih & CSR -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="card-soft-green p-6 rounded-[2rem] text-center text-emerald-800"><p class="text-[8px] font-black uppercase mb-1">Laba Bersih (LK-BO)</p><h5 id="c-res-lb" class="text-sm font-black">Rp 0</h5></div>
+                        <div class="card-soft-gold p-6 rounded-[2rem] text-center text-slate-500"><p class="text-[8px] font-black uppercase mb-1">CSR (LB * 5%)</p><h5 id="c-res-csr" class="text-sm font-black">Rp 0</h5></div>
                     </div>
                 </div>
             </div>
         </div>
       </div>
 
-      <!-- REKAP (IMAGE_5ECB92) -->
+      <!-- REKAP -->
       <div id="page-rekap" class="hidden space-y-12">
         <div class="flex justify-between items-end gap-6">
             <div class="border-l-8 border-srg-green pl-8">
@@ -200,13 +204,15 @@
             <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
               <div class="md:col-span-3"><label class="block text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-3">Periode Laporan</label><select id="r-mode" onchange="updateRekap()" class="capsule-input w-full p-5 bg-gray-50 font-bold text-xs outline-none uppercase"><option value="harian">HARIAN / MINGGUAN</option><option value="bulanan">BULANAN</option></select></div>
               <div class="md:col-span-6 grid grid-cols-2 gap-6">
-                  <div><label class="block text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-3">Dari</label><input type="date" id="r-start" onchange="updateRekap()" class="capsule-input w-full p-5 bg-gray-50 font-bold text-xs uppercase text-center"></div>
-                  <div><label class="block text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-3">Sampai</label><input type="date" id="r-end" onchange="updateRekap()" class="capsule-input w-full p-5 bg-gray-50 font-bold text-xs uppercase text-center"></div>
+                  <div><label class="block text-[9px] font-black text-slate-400 uppercase mb-2 ml-4 italic">Dari</label><input type="date" id="r-start" onchange="updateRekap()" class="capsule-input w-full p-5 bg-gray-50 font-bold text-xs uppercase text-center"></div>
+                  <div><label class="block text-[9px] font-black text-slate-400 uppercase mb-2 ml-4 italic">Sampai</label><input type="date" id="r-end" onchange="updateRekap()" class="capsule-input w-full p-5 bg-gray-50 font-bold text-xs uppercase text-center"></div>
               </div>
               <div class="md:col-span-3"><button onclick="updateRekap()" class="btn-premium w-full py-5 text-xs italic tracking-widest">TAMPILKAN DATA</button></div>
             </div>
         </div>
-        <div id="rekapStats" class="grid grid-cols-1 md:grid-cols-5 gap-6"></div>
+        <!-- Summary Cards Rekap Sesuai Gambar Referensi -->
+        <div id="rekapStats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6"></div>
+        
         <div class="capsule-card overflow-hidden bg-white/95 border-white shadow-2xl">
             <div class="p-8 border-b border-slate-50 font-black text-srg-green uppercase text-[10px] italic">RINCIAN DATA TRANSAKSI TERKAIT</div>
             <div class="overflow-x-auto"><table class="w-full text-left text-[10px] italic"><thead class="bg-slate-50/50 text-[8px] font-black uppercase tracking-[0.3em] text-slate-400 border-b"><tr><th class="p-6">WAKTU</th><th>MITRA</th><th class="text-right">OMSET</th><th class="text-right">MODAL</th><th class="text-right text-emerald-800 font-black italic">LABA BERSIH (LK-BO)</th><th>BIAYA OPS (INFO)</th><th class="text-right text-srg-gold">DANA CSR (5%)</th><th class="text-right text-srg-green">PEMBAGIAN PT</th><th class="text-right text-orange-700 font-black">PEMBAGIAN MITRA</th></tr></thead><tbody id="rekapTableBody" class="divide-y divide-slate-100"></tbody></table></div>
@@ -273,11 +279,23 @@
             const name = getMitraName(i);
             hFil.add(new Option(name, name)); iMtr.add(new Option(name, name));
         }
-        if(user.role === 'mitra') {
-            iMtr.value = user.username; iMtr.disabled = true;
-            document.getElementById('mitraForm').classList.remove('hidden');
-        }
+        setupMitraForm();
         document.getElementById('f-tgl').valueAsDate = new Date();
+    }
+
+    function setupMitraForm() {
+        const selVal = document.getElementById('f-mtr').value;
+        const form = document.getElementById('mitraFormArea');
+        if (user.role === 'mitra') {
+            document.getElementById('f-mtr').value = user.username;
+            document.getElementById('f-mtr').disabled = true;
+            form.classList.remove('hidden');
+        } else if (user.role === 'admin' && selVal !== "") {
+            form.classList.remove('hidden');
+        } else {
+            form.classList.add('hidden');
+        }
+        updateCek();
     }
 
     async function refreshData() {
@@ -304,8 +322,8 @@
             {l:"BIAYA PRODUKSI", v:s.bp, t:"card-soft-red", x:"text-red-700"},
             {l:"BIAYA OPERASIONAL", v:s.bo, t:"card-soft-gold", x:"text-slate-500"},
             {l:"LABA KOTOR (O-BP)", v:s.lk, t:"card-soft-green", x:"text-emerald-800"},
-            {l:"MARGIN (%)", v:margin, t:"card-soft-green", x:"text-srg-gold", isP: true},
-            {l:"LABA BERSIH", v:s.lb, t:"card-soft-green", x:"text-emerald-800"},
+            {l:"Margin (%) (LK/O)", v:margin, t:"card-soft-green", x:"text-srg-gold", isP: true},
+            {l:"Laba Bersih (LK-BO)", v:s.lb, t:"card-soft-green", x:"text-emerald-800"},
             {l:"CSR (LB * 5%)", v:s.csr, t:"card-pekat-green", x:"text-srg-gold"},
             {l:"PEMBAGIAN PT", v:s.pt, t:"card-pekat-green", x:"text-srg-gold"},
             {l:"PEMBAGIAN MITRA", v:s.mtr, t:"card-soft-orange", x:"text-orange-700"}
@@ -341,7 +359,10 @@
     }
 
     function switchPage(p) {
-        ['dashboard', 'input', 'rekap'].forEach(pg => document.getElementById('page-'+pg).classList.toggle('hidden', pg !== p));
+        ['dashboard', 'input', 'rekap'].forEach(pg => {
+            const el = document.getElementById('page-'+pg);
+            if (el) el.classList.toggle('hidden', pg !== p);
+        });
         document.querySelectorAll('.nav-btn').forEach(b => {
             const act = b.id === 'nav-' + p;
             b.classList.toggle('nav-btn-active', act); b.classList.toggle('text-slate-400', !act);
@@ -366,6 +387,8 @@
         document.getElementById('c-res-oms').innerText = fmt(s.o);
         document.getElementById('c-res-pt').innerText = fmt(s.pt);
         document.getElementById('c-res-mtr').innerText = fmt(s.mtr);
+        document.getElementById('c-res-lb').innerText = fmt(s.lb);
+        document.getElementById('c-res-csr').innerText = fmt(s.csr);
     }
 
     function updateRekap() {
@@ -381,10 +404,10 @@
         const rStats = document.getElementById('rekapStats');
         const cfg = [
             {l:"TOTAL OMSET", v:ts.o, t:"card-soft-gold", x:"text-slate-800"},
-            {l:"TOTAL LABA BERSIH", v:ts.lb, t:"card-soft-green", x:"text-emerald-800"},
-            {l:"DANA CSR", v:ts.csr, t:"card-pekat-green", x:"text-srg-gold"},
-            {l:"BAGIAN PT", v:ts.pt, t:"card-pekat-green", x:"text-srg-gold"},
-            {l:"BAGIAN MITRA", v:ts.mtr, t:"card-soft-orange", x:"text-orange-700"}
+            {l:"Laba Bersih Akhir (LK-BO)", v:ts.lb, t:"card-soft-green", x:"text-emerald-800"},
+            {l:"CSR (LB * 5%)", v:ts.csr, t:"card-pekat-green", x:"text-srg-gold"},
+            {l:"PEMBAGIAN PT", v:ts.pt, t:"card-pekat-green", x:"text-srg-gold"},
+            {l:"PEMBAGIAN MITRA", v:ts.mtr, t:"card-soft-orange", x:"text-orange-700"}
         ];
         rStats.innerHTML = cfg.map(c => `<div class="capsule-card p-10 ${c.t} text-center"><p class="text-[9px] font-black uppercase opacity-70 mb-2 italic tracking-widest">${c.l}</p><h4 class="text-3xl font-black italic ${c.x}">${fmt(c.v)}</h4></div>`).join('');
         const rBody = document.getElementById('rekapTableBody');
