@@ -13,9 +13,6 @@
     body::before { content: ""; position: fixed; inset: 0; background-image: radial-gradient(#d1d5db 0.8px, transparent 0.8px); background-size: 24px 24px; opacity: 0.3; z-index: -2; }
     body::after { content: ""; position: fixed; inset: 0; background-image: url('https://www.transparenttextures.com/patterns/batik-ideal.png'); opacity: 0.15; background-size: 450px; filter: sepia(100%) saturate(150%) brightness(95%); z-index: -1; }
     
-    .text-srg-gold { color: #b19053 !important; }
-    .bg-srg-green { background-color: #06372d !important; }
-
     /* UKURAN KARTU RAMPING */
     .capsule-card { border-radius: 1.8rem; background: rgba(255, 253, 245, 0.95); border: 1px solid rgba(177, 144, 83, 0.2); box-shadow: 0 10px 30px -10px rgba(6, 55, 45, 0.08); transition: all 0.3s ease; }
     .card-soft-gold { background: linear-gradient(135deg, rgba(253, 250, 240, 0.95) 0%, rgba(226, 194, 141, 0.3) 100%); }
@@ -24,22 +21,17 @@
     .card-soft-orange { background: linear-gradient(135deg, rgba(255, 247, 237, 0.95) 0%, rgba(249, 115, 22, 0.1) 100%); }
     .card-soft-red { background: linear-gradient(135deg, rgba(254, 242, 242, 0.95) 0%, rgba(239, 68, 68, 0.05) 100%); }
 
-    .capsule-input { border-radius: 1.2rem; border: 1px solid #e2e8f0; background: white; outline: none; transition: all 0.2s; font-size: 0.8rem; }
-    .capsule-input:focus { border-color: var(--srg-gold); box-shadow: 0 0 0 3px rgba(177, 144, 83, 0.1); }
-    
     .nav-floating { backdrop-filter: blur(25px); background: rgba(255, 253, 245, 0.92); border: 1px solid rgba(177, 144, 83, 0.2); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
     .nav-btn-active { background-color: #06372d; color: #b19053 !important; }
     .btn-premium { border-radius: 9999px; background: #06372d; color: #b19053 !important; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
-    
-    .srg-modal-overlay { position: fixed; inset: 0; background: rgba(4, 38, 31, 0.75); backdrop-filter: blur(12px); z-index: 2000; display: none; align-items: center; justify-content: center; }
+    .srg-modal-overlay { position: fixed; inset: 0; background: rgba(4, 38, 31, 0.75); backdrop-filter: blur(10px); z-index: 2000; display: none; align-items: center; justify-content: center; }
     .srg-modal-overlay.active { display: flex; }
-
-    /* PDF STYLES F4/FOLIO */
+    
     @media print {
       @page { size: 215mm 330mm; margin: 15mm; }
       body { background: white !important; }
       .no-print { display: none !important; }
-      #page-rekap { display: block !important; padding: 0 !important; }
+      #page-rekap { display: block !important; padding: 0 !important; margin: 0 !important; }
       .capsule-card { border: 1px solid #ddd !important; box-shadow: none !important; border-radius: 10px !important; margin-bottom: 8px !important; padding: 15px !important; }
       #rekapStats { grid-template-columns: repeat(5, 1fr) !important; gap: 5px !important; }
       #rekapStats h4 { font-size: 9px !important; }
@@ -52,7 +44,7 @@
 </head>
 <body class="min-h-screen">
 
-  <!-- ELITE NOTIFICATION MODAL -->
+  <!-- MODAL ELITE (ADMIN & MITRA SAMA) -->
   <div id="srgModal" class="srg-modal-overlay no-print">
       <div class="capsule-card w-[90%] max-w-sm p-8 text-center border-white shadow-2xl">
           <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-srg-gold bg-srg-green shadow-inner"><span class="text-srg-gold font-black text-lg italic">SRG</span></div>
@@ -77,29 +69,31 @@
 
   <!-- LOGIN SECTION -->
   <div id="loginSection" class="flex items-center justify-center min-h-screen p-6">
-    <div class="capsule-card p-10 w-full max-w-md text-center shadow-2xl">
+    <div class="capsule-card p-12 w-full max-w-md text-center shadow-2xl">
       <div class="mb-8">
           <div class="w-24 h-24 bg-srg-green rounded-full flex items-center justify-center mx-auto border-4 border-srg-gold shadow-xl">
               <span class="text-srg-gold font-black text-3xl italic">SRG</span>
           </div>
           <h1 class="text-xl font-black text-srg-green tracking-tight uppercase italic mt-6">PT SUBUR RAYA GROUP</h1>
-          <p class="text-srg-gold text-[9px] font-black tracking-[0.3em] uppercase mt-1 italic">ELITE FINANCIAL SYSTEM</p>
+          <p class="text-srg-gold text-[10px] font-black tracking-[0.3em] uppercase mt-1 italic">ELITE FINANCIAL SYSTEM</p>
       </div>
       <div class="space-y-4 text-left max-w-xs mx-auto">
-        <input type="text" id="uIn" class="capsule-input w-full px-6 py-4 font-bold" placeholder="username">
-        <div class="relative"><input type="password" id="pIn" class="capsule-input w-full px-6 py-4 font-bold pr-12" placeholder="password"><button onclick="togglePass()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"><i id="passIcon" class="fas fa-eye text-sm"></i></button></div>
-        <div class="flex items-center space-x-2 ml-2"><input type="checkbox" id="remMe" class="w-3.5 h-3.5 rounded text-srg-green focus:ring-srg-gold cursor-pointer"><label for="remMe" class="text-[9px] font-black text-slate-400 uppercase italic">SIMPAN ID & KATA SANDI</label></div>
+        <input type="text" id="uIn" class="w-full px-6 py-4 rounded-xl border border-gray-100 outline-none font-bold text-sm" placeholder="username">
+        <div class="relative"><input type="password" id="pIn" class="w-full px-6 py-4 rounded-xl border border-gray-100 outline-none font-bold text-sm pr-12" placeholder="password"><button onclick="togglePass()" class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400"><i id="passIcon" class="fas fa-eye text-sm"></i></button></div>
+        <div class="flex items-center space-x-2 ml-2"><input type="checkbox" id="remMe" class="w-3.5 h-3.5 rounded text-srg-green focus:ring-srg-gold cursor-pointer"><label for="remMe" class="text-[10px] font-black text-slate-400 uppercase italic">SIMPAN ID & KATA SANDI</label></div>
         <button onclick="handleLogin()" class="btn-premium w-full py-5 text-xs shadow-xl uppercase">Masuk Sistem</button>
+        <!-- TULISAN DIBAWAH MASUK SISTEM (DIKEMBALIKAN) -->
+        <div class="mt-14 text-center text-[9px] text-slate-300 font-black tracking-[0.4em] uppercase italic">© 2025 PT SUBUR RAYA GROUP</div>
       </div>
     </div>
   </div>
 
-  <!-- MAIN SECTION -->
+  <!-- MAIN APP -->
   <div id="mainSection" class="hidden">
-    <!-- NAV ATAS -->
+    <!-- NAV ATAS (POSISI ATAS SESUAI PERINTAH) -->
     <div class="fixed top-8 left-1/2 -translate-x-1/2 z-[1000] w-[92%] max-w-2xl no-print">
         <nav class="nav-floating rounded-full p-2 flex justify-between items-center px-6">
-          <div class="flex items-center space-x-2"><div class="w-8 h-8 bg-srg-green rounded-full flex items-center justify-center text-srg-gold font-black text-[9px] italic">SRG</div><p class="text-srg-green font-black text-[10px] italic uppercase hidden sm:block">PT SR GROUP</p></div>
+          <div class="flex items-center space-x-2"><div class="w-8 h-8 bg-srg-green rounded-full flex items-center justify-center text-srg-gold font-black text-[9px] italic border border-srg-gold/30">SRG</div><p class="text-srg-green font-black text-[10px] italic uppercase hidden sm:block">PT SR GROUP</p></div>
           <div class="flex bg-slate-100/50 p-1 rounded-full">
             <button id="nav-dashboard" onclick="switchPage('dashboard')" class="nav-btn px-5 py-2.5 rounded-full text-[9px] font-black uppercase nav-btn-active">Home</button>
             <button id="nav-input" onclick="switchPage('input')" class="nav-btn px-5 py-2.5 rounded-full text-[9px] font-black uppercase text-slate-400">Input</button>
@@ -113,15 +107,19 @@
         </nav>
     </div>
 
-    <main class="mx-auto py-24 px-6 w-full max-w-7xl mt-12">
-      <!-- DASHBOARD -->
+    <main class="mx-auto py-24 px-4 w-full max-w-7xl mt-12">
+      <!-- DASHBOARD (HOME) -->
       <div id="page-dashboard" class="space-y-8">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div><p class="text-srg-gold text-[9px] font-black uppercase italic">Financial Insight</p><h2 class="text-4xl font-black text-srg-green italic uppercase tracking-tighter">Ringkasan Keuangan</h2></div>
-            <div class="flex items-center space-x-4 bg-white/80 p-2.5 pr-5 rounded-full border border-white shadow-lg"><div class="w-10 h-10 bg-srg-green rounded-full flex items-center justify-center font-black text-srg-gold italic">U</div><div><p id="userD" class="text-[11px] font-black text-srg-green italic uppercase leading-none"></p><p id="roleD" class="text-[7px] text-srg-gold font-black uppercase mt-1"></p></div></div>
+            <div><p class="text-srg-gold text-[9px] font-black uppercase italic leading-none">Financial Strategic Overview</p><h2 class="text-4xl font-black text-srg-green italic uppercase tracking-tighter">Ringkasan Keuangan</h2></div>
+            <div class="flex items-center space-x-4 bg-white/80 p-2.5 pr-5 rounded-full border border-white shadow-lg">
+                <div class="w-10 h-10 bg-srg-green rounded-full flex items-center justify-center font-black text-srg-gold italic shadow-inner">U</div>
+                <div><p id="userD" class="text-[11px] font-black text-srg-green italic uppercase leading-none"></p><p id="roleD" class="text-[7px] text-srg-gold font-black uppercase mt-1"></p></div>
+            </div>
         </div>
         <div id="statsGrid" class="grid grid-cols-2 lg:grid-cols-4 gap-4"></div>
-        <div class="capsule-card overflow-hidden bg-white/95 shadow-xl">
+        
+        <div class="capsule-card overflow-hidden bg-white/95 border-white shadow-xl">
             <div class="p-6 border-b border-slate-50 font-black text-srg-green text-[10px] uppercase italic">Aktivitas Transaksi Terbaru</div>
             <div class="overflow-x-auto"><table class="w-full text-left text-[10px] italic"><thead class="bg-slate-50/50 text-[8px] font-black uppercase text-slate-400 border-b"><tr><th class="p-5">WAKTU</th><th>MITRA</th><th class="text-right">OMSET</th><th class="text-right">MODAL</th><th class="text-right text-emerald-800 font-black">LABA KOTOR</th><th>BIAYA OPERASIONAL (DETAIL)</th><th class="text-center">AKSI</th></tr></thead><tbody id="dataTableBody" class="divide-y divide-slate-100"></tbody></table></div>
         </div>
@@ -133,110 +131,85 @@
             <div class="lg:col-span-7 capsule-card p-10 shadow-2xl border-white">
                 <h2 class="text-4xl font-black text-srg-green italic uppercase mb-8">CEK DATA MITRA</h2>
                 <div class="grid grid-cols-2 gap-6 mb-8">
-                  <div><label class="text-[8px] font-black text-slate-400 uppercase italic ml-3 mb-1.5 block">Tanggal</label><input type="date" id="f-tgl" class="capsule-input w-full p-4 font-bold uppercase"></div>
-                  <div><label class="text-[8px] font-black text-slate-400 uppercase italic ml-3 mb-1.5 block">Identitas Mitra</label><select id="f-mtr" onchange="setupMitraForm()" class="capsule-input w-full p-4 font-bold outline-none cursor-pointer"></select></div>
+                  <div><label class="text-[8px] font-black text-slate-400 uppercase italic ml-3 mb-1.5 block">Tanggal Laporan</label><input type="date" id="f-tgl" class="w-full p-4 rounded-xl border border-gray-100 font-bold text-xs uppercase outline-none"></div>
+                  <div><label class="text-[8px] font-black text-slate-400 uppercase italic ml-3 mb-1.5 block">Identitas Mitra</label><select id="f-mtr" onchange="setupMitraForm()" class="w-full p-4 rounded-xl border border-gray-100 font-bold text-xs outline-none cursor-pointer"></select></div>
                 </div>
                 <div id="mitraFormArea" class="hidden space-y-6 pt-6 border-t border-slate-100">
                     <div class="grid grid-cols-2 gap-6">
-                        <input type="number" id="f-oms" oninput="liveCalc()" placeholder="Omset" class="capsule-input w-full p-4 font-bold bg-white">
-                        <input type="number" id="f-mod" oninput="liveCalc()" placeholder="Modal Produksi" class="capsule-input w-full p-4 font-bold bg-white">
+                        <input type="number" id="f-oms" oninput="liveCalc()" placeholder="Omset" class="w-full p-4 rounded-xl border border-gray-100 font-bold text-xs bg-white">
+                        <input type="number" id="f-mod" oninput="liveCalc()" placeholder="Modal Produksi" class="w-full p-4 rounded-xl border border-gray-100 font-bold text-xs bg-white">
                     </div>
-                    <input type="number" id="f-ops" oninput="liveCalc()" placeholder="Biaya Operasional" class="capsule-input w-full p-4 font-bold bg-white">
-                    <textarea id="f-ket" class="capsule-input w-full p-5 text-[11px] italic min-h-[100px]" placeholder="Keterangan Detail..."></textarea>
+                    <input type="number" id="f-ops" oninput="liveCalc()" placeholder="Biaya Operasional" class="w-full p-4 rounded-xl border border-gray-100 font-bold text-xs bg-white">
+                    <textarea id="f-ket" class="w-full p-5 rounded-xl border border-gray-100 text-xs italic min-h-[100px] resize-none" placeholder="Keterangan Detail..."></textarea>
                     
-                    <!-- KALKULATOR MITRA DI CEK DATA -->
+                    <!-- KALKULATOR MITRA DI CEK DATA (DIKEMBALIKAN) -->
                     <div id="liveCalc" class="hidden p-6 rounded-2xl bg-emerald-50 border border-emerald-100 flex justify-between items-center shadow-inner">
                         <div class="text-left"><p class="text-[8px] font-black text-emerald-600 uppercase italic mb-1">Laba Kotor Estimasi</p><h4 id="lkLive" class="text-2xl font-black text-emerald-800 italic">Rp 0</h4></div>
                         <i class="fas fa-calculator text-emerald-200 text-2xl"></i>
                     </div>
-                    <button onclick="submitData()" class="btn-premium w-full py-5 text-xs shadow-xl italic">SIMPAN LAPORAN</button>
+                    <button onclick="submitData()" class="btn-premium w-full py-5 text-xs shadow-xl italic uppercase">Simpan Laporan</button>
                 </div>
             </div>
             <!-- STATISTIK AKTIVITAS KANAN -->
             <div class="lg:col-span-5 capsule-card p-10 bg-white/90 shadow-xl space-y-4">
                 <div class="flex items-center space-x-2"><i class="fas fa-chart-line text-srg-gold"></i><h4 class="text-xs font-black text-srg-green italic uppercase">Cek Aktivitas Mitra</h4></div>
-                <div class="grid grid-cols-2 gap-2"><input type="date" id="c-start" onchange="updateCek()" class="capsule-input p-2.5 text-[9px] font-bold text-center"><input type="date" id="c-end" onchange="updateCek()" class="capsule-input p-2.5 text-[9px] font-bold text-center"></div>
+                <div class="grid grid-cols-2 gap-2"><input type="date" id="c-start" onchange="updateCek()" class="w-full p-2.5 text-[9px] rounded-lg border border-gray-100 font-bold text-center"><input type="date" id="c-end" onchange="updateCek()" class="w-full p-2.5 text-[9px] rounded-lg border border-gray-100 font-bold text-center"></div>
                 <div id="cekRes" class="space-y-3 pt-4 border-t">
                     <div class="card-pekat-green p-6 rounded-3xl text-center shadow-md"><p class="text-[8px] uppercase opacity-70 mb-1">Total Omset</p><h4 id="c-oms" class="text-2xl font-black italic">Rp 0</h4></div>
                     <div class="grid grid-cols-2 gap-3">
-                        <div class="card-pekat-green p-4 rounded-2xl text-center"><p class="text-[7px] uppercase mb-0.5 opacity-70">Pembagian PT (20%)</p><h5 id="c-pt" class="text-[10px] font-black">Rp 0</h5></div>
-                        <div class="card-soft-orange p-4 rounded-2xl text-center border-orange-200 text-orange-700"><p class="text-[7px] uppercase mb-0.5">Pembagian Mitra (80%)</p><h5 id="c-mtr" class="text-[10px] font-black">Rp 0</h5></div>
+                        <div class="card-soft-green p-4 rounded-2xl text-center border-emerald-100 text-emerald-800"><p class="text-[7px] uppercase mb-0.5 font-bold">Laba Bersih (LK-BO)</p><h5 id="c-lb" class="text-[10px] font-black">Rp 0</h5></div>
+                        <div class="card-soft-gold p-4 rounded-2xl text-center border-orange-100 text-slate-500"><p class="text-[7px] uppercase mb-0.5 font-bold">Csr (LB * 5%)</p><h5 id="c-csr" class="text-[10px] font-black">Rp 0</h5></div>
                     </div>
                     <div class="grid grid-cols-2 gap-3">
-                        <div class="card-soft-green p-4 rounded-2xl text-center border-emerald-100 text-emerald-800"><p class="text-[7px] uppercase mb-0.5">Laba Bersih (LK-BO)</p><h5 id="c-lb" class="text-[10px] font-black">Rp 0</h5></div>
-                        <div class="card-soft-gold p-4 rounded-2xl text-center border-orange-100 text-slate-500"><p class="text-[7px] uppercase mb-0.5">Csr (LB * 5%)</p><h5 id="c-csr" class="text-[10px] font-black">Rp 0</h5></div>
+                        <div class="card-pekat-green p-4 rounded-2xl text-center border-srg-gold/20"><p class="text-[7px] uppercase mb-0.5 opacity-70 font-bold">Pembagian PT (20%)</p><h5 id="c-pt" class="text-[10px] font-black">Rp 0</h5></div>
+                        <div class="card-soft-orange p-4 rounded-2xl text-center border-orange-200 text-orange-700"><p class="text-[7px] uppercase mb-0.5 font-bold">Pembagian Mitra (80%)</p><h5 id="c-mtr" class="text-[10px] font-black">Rp 0</h5></div>
                     </div>
                 </div>
             </div>
         </div>
       </div>
 
-      <!-- REKAP (PDF F4 COMPLIANT) -->
+      <!-- REKAP (PDF F4) -->
       <div id="page-rekap" class="hidden space-y-10">
-          <div class="kop-pt">
-              <h1 class="text-3xl font-black text-srg-green">PT SUBUR RAYA GROUP</h1>
-              <p class="text-xs font-bold text-srg-gold tracking-[0.4em] uppercase">Elite Financial & Accounting System</p>
-              <p class="text-[10px] text-gray-400 italic">Bojonegoro, Jawa Timur, Indonesia</p>
-          </div>
-
-          <div class="flex justify-between items-end no-print">
-              <div><h2 class="text-5xl font-black text-srg-green italic uppercase tracking-tighter">REKAPITULASI LAPORAN</h2><p class="text-[10px] text-slate-400 font-bold uppercase italic tracking-widest mt-1" id="printInfo">Informasi Dokumen Formal</p></div>
-              <button onclick="prepareAndPrint()" class="btn-premium px-10 py-4 text-[10px] shadow-xl">UNDUH / CETAK PDF</button>
-          </div>
+          <div class="kop-pt"><h1 class="text-3xl font-black text-srg-green">PT SUBUR RAYA GROUP</h1><p class="text-xs font-bold text-srg-gold tracking-[0.4em] uppercase">Elite Financial & Accounting System</p><p class="text-[10px] text-gray-400 italic">Bojonegoro, Jawa Timur, Indonesia</p></div>
+          <div class="flex justify-between items-end no-print"><div><h2 class="text-5xl font-black text-srg-green italic uppercase tracking-tighter">REKAPITULASI LAPORAN</h2><p class="text-[10px] text-slate-400 font-bold uppercase italic mt-1" id="printInfo"></p></div><button onclick="window.print()" class="btn-premium px-10 py-4 text-[10px] shadow-xl">UNDUH / CETAK PDF</button></div>
           
           <div class="capsule-card p-10 bg-white/90 shadow-2xl no-print">
               <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
-                <div class="md:col-span-3"><label class="block text-[9px] font-black text-slate-400 uppercase italic ml-3 mb-2">Periode</label><select id="r-mode" onchange="updateRekap()" class="capsule-input w-full p-4 font-bold bg-gray-50 uppercase"><option value="harian">HARIAN / MINGGUAN</option><option value="bulanan">BULANAN</option></select></div>
+                <div class="md:col-span-3"><label class="block text-[9px] font-black text-slate-400 uppercase italic ml-3 mb-2">Periode</label><select id="r-mode" onchange="updateRekap()" class="w-full p-4 rounded-xl border border-gray-100 font-bold bg-gray-50 uppercase outline-none"><option value="harian">HARIAN / MINGGUAN</option><option value="bulanan">BULANAN</option></select></div>
                 <div class="md:col-span-6 grid grid-cols-2 gap-4">
-                    <input type="date" id="r-start" onchange="updateRekap()" class="capsule-input w-full p-4 font-bold text-center">
-                    <input type="date" id="r-end" onchange="updateRekap()" class="capsule-input w-full p-4 font-bold text-center">
+                    <input type="date" id="r-start" onchange="updateRekap()" class="w-full p-4 rounded-xl border border-gray-100 font-bold text-center outline-none">
+                    <input type="date" id="r-end" onchange="updateRekap()" class="w-full p-4 rounded-xl border border-gray-100 font-bold text-center outline-none">
                 </div>
                 <div class="md:col-span-3"><button onclick="updateRekap()" class="btn-premium w-full py-4 text-[10px] tracking-widest">TAMPILKAN DATA</button></div>
               </div>
           </div>
 
           <div id="rekapStats" class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-3"></div>
+          <div class="capsule-card overflow-hidden bg-white shadow-xl border-white"><div class="p-6 border-b font-black text-srg-green uppercase text-[10px] italic">Rincian Data Terkait</div><div class="overflow-x-auto"><table class="w-full text-left text-[9px] italic"><thead class="bg-slate-50 font-black uppercase border-b"><tr><th class="p-4">WAKTU</th><th>MITRA</th><th class="text-right">OMSET</th><th class="text-right">MODAL</th><th class="text-right">LABA BERSIH (LK-BO)</th><th>INFO OPS</th><th class="text-right">CSR (5%)</th><th class="text-right">PEMBAGIAN PT</th><th class="text-right text-orange-700 font-black">PEMBAGIAN MITRA</th></tr></thead><tbody id="rekapBody" class="divide-y divide-slate-100"></tbody></table></div></div>
           
-          <div class="capsule-card overflow-hidden bg-white shadow-xl border-white">
-              <div class="p-6 border-b border-slate-50 font-black text-srg-green uppercase text-[10px] italic">Rincian Data Transaksi Terkait</div>
-              <div class="overflow-x-auto"><table class="w-full text-left text-[9px] italic"><thead class="bg-slate-50 font-black uppercase text-slate-400 border-b"><tr><th class="p-4">WAKTU</th><th>MITRA</th><th class="text-right">OMSET</th><th class="text-right">MODAL</th><th class="text-right font-black">LABA BERSIH (LK-BO)</th><th>INFO OPS</th><th class="text-right text-srg-gold">CSR (5%)</th><th class="text-right text-srg-green">PEMBAGIAN PT</th><th class="text-right text-orange-700">PEMBAGIAN MITRA</th></tr></thead><tbody id="rekapBody" class="divide-y divide-slate-100"></tbody></table></div>
-          </div>
-
-          <!-- SIGNATURE AREA -->
-          <div class="print-signature">
-              <div class="flex flex-col items-center">
-                  <p id="pDate" class="mb-24">Bojonegoro, ...</p>
-                  <p class="font-bold underline text-[14px] uppercase">Burhan Ari Mukti</p>
-                  <p class="text-[10px] uppercase font-bold text-gray-500 mt-1">Direktur Utama</p>
-              </div>
-              <div class="flex flex-col items-center">
-                  <p class="mb-24 opacity-0">.</p>
-                  <p class="font-bold underline text-[14px] uppercase">M.Nasyruddin Mujtaba M.A</p>
-                  <p class="text-[10px] uppercase font-bold text-gray-500 mt-1">Direktur Accounting & Administrasi</p>
-              </div>
-          </div>
+          <div class="print-signature"><div class="flex flex-col items-center"><p id="pDate" class="mb-24"></p><p class="font-bold underline text-[14px]">BURHAN ARI MUKTI</p><p class="text-[10px] uppercase font-bold text-gray-500">Direktur Utama</p></div><div class="flex flex-col items-center"><p class="mb-24 opacity-0">.</p><p class="font-bold underline text-[14px]">M.NASYRUDDIN MUJTABA M.A</p><p class="text-[10px] uppercase font-bold text-gray-500">Direktur Accounting & Administrasi</p></div></div>
       </div>
     </main>
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbz1DI7HKm6Me8qDpTK8W7eFJIsROC_bc9yXs6HGejFFW39efmY0BJT6dMGPTI4ldwRX/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbxz0mf3g1sf3M-9nksy_WmOud8iqBVQD42BW3PYg-39M5E1Up0uN5_d7Y4-Lx8Gk7Ub/exec";
     let user = null, transactions = [];
     const fmt = (v) => "Rp " + new Intl.NumberFormat('id-ID').format(Math.floor(v || 0));
 
     function showToast(m) { const t = document.getElementById('srgToast'); document.getElementById('toastMessage').innerText = m; t.classList.remove('translate-x-[120%]'); setTimeout(()=>t.classList.add('translate-x-[120%]'), 4000); }
-    
     function showSRGModal(o) {
         const m = document.getElementById('srgModal'), a = document.getElementById('modalActionContainer');
         document.getElementById('modalTitle').innerText = o.t || "PEMBERITAHUAN";
         document.getElementById('modalMessage').innerHTML = o.m || "";
         a.innerHTML = '';
         if(o.confirm) {
-            const b1 = document.createElement('button'); b1.className = "btn-premium w-full py-4 text-xs font-black shadow-lg"; b1.innerText = o.btn || "LANJUTKAN"; b1.onclick = () => { closeSRGModal(); o.onConfirm(); };
+            const b1 = document.createElement('button'); b1.className = "btn-premium w-full py-3.5 text-[10px] font-black shadow-lg"; b1.innerText = o.btn || "LANJUTKAN"; b1.onclick = () => { closeSRGModal(); o.onConfirm(); };
             const b2 = document.createElement('button'); b2.className = "w-full py-2.5 text-[9px] font-black text-slate-400 uppercase tracking-widest"; b2.innerText = "BATALKAN"; b2.onclick = closeSRGModal;
             a.append(b1, b2);
         } else {
-            const b = document.createElement('button'); b.className = "btn-premium w-full py-4 text-xs font-black shadow-lg"; b.innerText = "TUTUP"; b.onclick = closeSRGModal; a.appendChild(b);
+            const b = document.createElement('button'); b.className = "btn-premium w-full py-3.5 text-[10px] font-black shadow-lg"; b.innerText = "TUTUP"; b.onclick = closeSRGModal; a.append(b);
         }
         m.classList.add('active');
     }
@@ -251,42 +224,42 @@
             return result;
         } catch (e) {
             document.getElementById('loadingOverlay').classList.add('hidden');
-            showSRGModal({ t: "Koneksi Terputus", m: "Sistem gagal menghubungi server Google Sheets." });
+            showSRGModal({ t: "Error", m: "Koneksi ke server terputus." });
             return { success: false };
         }
     }
 
-    function getMitraName(i) { if(i===1) return "ALBAROKAHSHOP30"; if(i===2) return "RADIATOR TUNGGAKSEMI"; return "MITRA "+i; }
-
     async function handleLogin() {
         const u = document.getElementById('uIn').value.trim(), p = document.getElementById('pIn').value.trim();
-        if(!u || !p) return showToast("Mohon lengkapi kredensial.");
-        showToast("Proses otentikasi...");
+        if(!u || !p) return showToast("Lengkapi kredensial.");
+        showToast("Otentikasi Akun...");
         const res = await callAPI("checkLogin", { u, p });
         if(res.success) {
             user = res;
             if(document.getElementById('remMe').checked) { localStorage.setItem('srg_u', u); localStorage.setItem('srg_p', p); }
-            showToast("Login Berhasil! Selamat Datang.");
+            showToast("Berhasil Login!");
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('mainSection').classList.remove('hidden');
             document.getElementById('userD').innerText = user.username;
             document.getElementById('roleD').innerText = user.role.toUpperCase();
             if(user.role === 'admin') document.getElementById('nav-rekap').classList.remove('hidden');
             setupUI(); refreshData();
-        } else showSRGModal({ t: "Akses Ditolak", m: "ID Pengguna atau Kata Sandi salah." });
+        } else showSRGModal({ t: "Akses Ditolak", m: "Username atau sandi salah." });
     }
 
     function setupUI() {
         const iMtr = document.getElementById('f-mtr'); iMtr.innerHTML = '<option value="">Pilih Mitra...</option>';
-        for(let i=1; i<=20; i++) { const n = getMitraName(i); iMtr.add(new Option(n, n)); }
+        for(let i=1; i<=20; i++) {
+            const n = i===1?"ALBAROKAHSHOP30":i===2?"RADIATOR TUNGGAKSEMI":"MITRA "+i;
+            iMtr.add(new Option(n, n));
+        }
         if(user.role === 'mitra') { iMtr.value = user.username; iMtr.disabled = true; setupMitraForm(); }
         document.getElementById('f-tgl').valueAsDate = new Date();
     }
 
     function setupMitraForm() {
-        const area = document.getElementById('mitraFormArea');
-        if(document.getElementById('f-mtr').value !== "" || user.role === 'mitra') area.classList.remove('hidden');
-        else area.classList.add('hidden');
+        if(document.getElementById('f-mtr').value !== "" || user.role === 'mitra') document.getElementById('mitraFormArea').classList.remove('hidden');
+        else document.getElementById('mitraFormArea').classList.add('hidden');
     }
 
     async function refreshData() {
@@ -297,7 +270,7 @@
     function updateDashboard() {
         const hFil = document.getElementById('mitraFilter');
         if(hFil.options.length <= 1) {
-            for(let i=1; i<=20; i++) { const n = getMitraName(i); hFil.add(new Option(n, n)); }
+            for(let i=1; i<=20; i++) { const n = i===1?"ALBAROKAHSHOP30":i===2?"RADIATOR TUNGGAKSEMI":"MITRA "+i; hFil.add(new Option(n, n)); }
         }
         let d = transactions;
         if(hFil.value !== 'all') d = d.filter(t => t.MITRA === hFil.value.toUpperCase());
@@ -335,18 +308,18 @@
     }
 
     async function deleteTx(id) {
-        showSRGModal({ t: "Hapus Transaksi", m: "Apakah Anda yakin ingin menghapus data ini secara permanen dari server?", confirm: true, btn: "HAPUS DATA", onConfirm: async () => {
+        showSRGModal({ t: "Konfirmasi Hapus", m: "Hapus data ini dari sistem? Tindakan ini permanen.", confirm: true, btn: "HAPUS DATA", onConfirm: async () => {
             const res = await callAPI("deleteTransaction", { id });
-            if(res.success) { showToast("Data Transaksi Berhasil Dihapus."); refreshData(); }
-            else showToast("Gagal menghapus data.");
+            if(res.success) { showToast("Data Terhapus."); refreshData(); }
+            else showToast("Gagal Menghapus.");
         }});
     }
 
     async function submitData() {
         const d = { tanggal: document.getElementById('f-tgl').value, mitra: document.getElementById('f-mtr').value, omset: parseFloat(document.getElementById('f-oms').value || 0), bProduksi: parseFloat(document.getElementById('f-mod').value || 0), bOperasional: parseFloat(document.getElementById('f-ops').value || 0), keterangan: document.getElementById('f-ket').value };
-        if(!d.tanggal || !d.mitra || d.omset === 0) return showToast("Mohon lengkapi laporan.");
+        if(!d.tanggal || !d.mitra || d.omset === 0) return showToast("Laporan Tidak Lengkap.");
         const res = await callAPI("submitTransaction", d);
-        if(res.success) { showSRGModal({ t: "Laporan Tersimpan", m: "Data transaksi telah aman masuk ke database PT Subur Raya Group." }); refreshData(); switchPage('dashboard'); }
+        if(res.success) { showSRGModal({ t: "Laporan Tersimpan", m: "Data transaksi telah masuk ke database SRG." }); refreshData(); switchPage('dashboard'); }
     }
 
     function updateCek() {
@@ -364,7 +337,6 @@
 
     function updateRekap() {
         const s = document.getElementById('r-start').value, e = document.getElementById('r-end').value;
-        const mode = document.getElementById('r-mode').value;
         let d = transactions; if(s && e) d = d.filter(t => t.TANGGAL >= s && t.TANGGAL <= e);
         let ts = { o:0, lb:0, c:0, pt:0, m:0 };
         d.forEach(r => {
@@ -372,22 +344,15 @@
             ts.o += o; ts.lb += (o-bp-bo); ts.c += parseFloat(r["CSR (5%)"]||0); ts.pt += parseFloat(r["PEMBAGIAN PT"]||0); ts.m += parseFloat(r["PEMBAGIAN MITRA"]||0);
         });
         const cfg = [{l:"Total Omset", v:ts.o, t:"card-soft-gold", x:"text-slate-800"}, {l:"Laba Bersih Akhir (LK-BO)", v:ts.lb, t:"card-soft-green", x:"text-emerald-800"}, {l:"Dana Csr (LB * 5%)", v:ts.c, t:"card-pekat-green", x:"text-srg-gold"}, {l:"Pembagian PT", v:ts.pt, t:"card-pekat-green", x:"text-srg-gold"}, {l:"Pembagian Mitra", v:ts.m, t:"card-soft-orange", x:"text-orange-700"}];
-        document.getElementById('rekapStats').innerHTML = cfg.map(c => `<div class="capsule-card p-5 ${c.t} text-center border-white shadow-md"><p class="text-[7px] uppercase font-black opacity-70 mb-1 italic">${c.l}</p><h4 class="text-base font-black italic ${c.x}">${fmt(c.v)}</h4></div>`).join('');
+        document.getElementById('rekapStats').innerHTML = cfg.map(c => `<div class="capsule-card p-5 ${c.t} text-center border-white shadow-md"><p class="text-[7px] uppercase opacity-70 mb-1 italic">${c.l}</p><h4 class="text-base font-black italic ${c.x}">${fmt(c.v)}</h4></div>`).join('');
         document.getElementById('rekapBody').innerHTML = d.map(r => `<tr><td class="p-4 font-bold text-slate-400">${r.TANGGAL}</td><td class="font-bold">${r.MITRA}</td><td class="text-right">${fmt(r.OMSET)}</td><td class="text-right">${fmt(r.MODAL)}</td><td class="text-right font-bold text-emerald-800">${fmt(parseFloat(r.OMSET)-parseFloat(r.MODAL)-parseFloat(r["TOTAL OPS"]||0))}</td><td class="px-4 italic opacity-60 text-[8.5px]">${r["BIAYA OPERASIONAL (DETAIL)"]||'-'}</td><td class="text-right text-srg-gold font-bold">${fmt(parseFloat(r["CSR (5%)"]||0))}</td><td class="text-right text-srg-green font-bold">${fmt(parseFloat(r["PEMBAGIAN PT"]||0))}</td><td class="text-right text-orange-700 font-black italic">${fmt(parseFloat(r["PEMBAGIAN MITRA"]||0))}</td></tr>`).join('');
-        
         document.getElementById('pDate').innerText = "Bojonegoro, " + new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
         document.getElementById('printInfo').innerText = `Mitra: ${user.username} | Periode: ${s||'-'} s/d ${e||'-'}`;
     }
 
-    function prepareAndPrint() {
-        const s = document.getElementById('r-start').value, e = document.getElementById('r-end').value;
-        if(!s || !e) return showSRGModal({ t: "Periode Kosong", m: "Mohon tentukan rentang tanggal sebelum mencetak laporan." });
-        window.print();
-    }
-
     function switchPage(p) {
         ['dashboard', 'input', 'rekap'].forEach(pg => { const el = document.getElementById('page-'+pg); if(el) el.classList.toggle('hidden', pg !== p); });
-        document.querySelectorAll('.nav-btn').forEach(b => { const a = b.id === 'nav-'+p; b.classList.toggle('nav-btn-active', a); b.classList.toggle('text-slate-400', !a); });
+        document.querySelectorAll('.nav-btn').forEach(b => { const act = b.id === 'nav-'+p; b.classList.toggle('nav-btn-active', act); b.classList.toggle('text-slate-400', !act); });
     }
     function liveCalc() {
         const o = parseFloat(document.getElementById('f-oms').value || 0), m = parseFloat(document.getElementById('f-mod').value || 0);
@@ -395,9 +360,9 @@
         document.getElementById('liveCalc').classList.toggle('hidden', (o === 0 && m === 0));
     }
     function togglePass() { const p = document.getElementById('passInput'), i = document.getElementById('passIcon'); p.type = p.type === 'password' ? 'text' : 'password'; i.className = p.type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash'; }
-    function handleLogout() { showSRGModal({ t: "Keluar Sistem?", m: "Anda akan mengakhiri sesi keamanan SRG.", confirm: true, btn: "KELUAR SEKARANG", onConfirm: () => location.reload() }); }
+    function handleLogout() { showSRGModal({ t: "Keluar Sesi?", m: "Anda akan keluar dari sistem keamanan PT Subur Raya Group.", confirm: true, btn: "KELUAR SEKARANG", onConfirm: () => location.reload() }); }
     function triggerSync() { showToast("Mensinkronisasi data terbaru..."); refreshData(); }
-    function handleAppDownload() { showSRGModal({ t: "Instal Aplikasi", m: "Simpan aplikasi ini di layar utama (Add to Home Screen) untuk akses lebih cepat dan mudah." }); }
+    function handleAppDownload() { showSRGModal({ t: "Instal Aplikasi", m: "Simpan aplikasi ke layar utama:<br><br>1. Klik ⋮ (Chrome) atau Share (Safari)<br>2. Pilih 'Add to Home Screen'" }); }
     window.onload = () => { const savedU = localStorage.getItem('srg_u'), savedP = localStorage.getItem('srg_p'); if(savedU && savedP) { document.getElementById('uIn').value = savedU; document.getElementById('pIn').value = savedP; document.getElementById('remMe').checked = true; } };
   </script>
 </body>
