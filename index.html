@@ -8,258 +8,140 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+    :root { --srg-green: #06372d; --srg-gold: #b19053; --srg-bg-gold: #fdfaf0; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--srg-bg-gold); color: #1a2e2a; overflow-x: hidden; position: relative; }
     
-    :root {
-      --srg-green: #06372d;
-      --srg-gold: #b19053;
-      --srg-bg-gold: #fdfaf0; 
-    }
-
-    body { 
-      font-family: 'Plus Jakarta Sans', sans-serif; 
-      background-color: var(--srg-bg-gold);
-      color: #1a2e2a;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* BACKGROUND DOT GRID (Sesuai Gambar) */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: radial-gradient(#d1d5db 0.8px, transparent 0.8px);
-      background-size: 24px 24px;
-      opacity: 0.4;
-      pointer-events: none;
-      z-index: -2;
-    }
-
-    /* WATERMARK BATIK HALUS */
-    body::after {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('https://www.transparenttextures.com/patterns/batik-ideal.png');
-      opacity: 0.15; 
-      background-size: 400px; 
-      filter: sepia(100%) saturate(150%) hue-rotate(5deg) brightness(95%); 
-      pointer-events: none;
-      z-index: -1;
-    }
+    /* Background Styles Identik Image_544c9e */
+    body::before { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(#d1d5db 0.8px, transparent 0.8px); background-size: 24px 24px; opacity: 0.4; z-index: -2; }
+    body::after { content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://www.transparenttextures.com/patterns/batik-ideal.png'); opacity: 0.15; background-size: 400px; filter: sepia(100%) saturate(150%) brightness(95%); z-index: -1; }
 
     .text-srg-gold { color: #b19053 !important; }
     .bg-srg-green { background-color: #06372d !important; }
-
-    .login-card { 
-      border-radius: 3rem; 
-      background: rgba(255, 255, 255, 0.95);
-      border: 1px solid rgba(177, 144, 83, 0.2);
-      box-shadow: 0 40px 100px -20px rgba(6, 55, 45, 0.15);
-    }
-
-    .capsule-input { 
-      border-radius: 1.5rem; 
-      border: 1px solid #e5e7eb; 
-      background: #f9fafb; 
-      transition: all 0.3s ease;
-    }
-    .capsule-input:focus { 
-      box-shadow: 0 0 0 4px rgba(177, 144, 83, 0.1); 
-      border-color: var(--srg-gold); 
-      background: white;
-      outline: none; 
-    }
-
-    .btn-main {
-      border-radius: 2rem;
-      background: #06372d;
-      color: #b19053 !important;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      transition: all 0.3s;
-      box-shadow: 0 15px 30px -5px rgba(6, 55, 45, 0.3);
-    }
-    .btn-main:active { transform: scale(0.96); }
-
-    .nav-floating { 
-      backdrop-filter: blur(25px); 
-      background: rgba(255, 253, 245, 0.92); 
-      border: 1px solid rgba(177, 144, 83, 0.2); 
-    }
-
+    .capsule-card { border-radius: 2.5rem; background: rgba(255, 253, 245, 0.9); backdrop-filter: blur(14px); border: 1px solid rgba(177, 144, 83, 0.3); box-shadow: 0 30px 60px -15px rgba(6, 55, 45, 0.15); }
+    .capsule-input { border-radius: 1.5rem; border: 1px solid #e5e7eb; background: white; outline: none; transition: all 0.2s; }
+    .capsule-input:focus { border-color: var(--srg-gold); box-shadow: 0 0 0 4px rgba(177, 144, 83, 0.1); }
+    .btn-premium { border-radius: 9999px; background: #06372d; color: #b19053 !important; font-weight: 800; text-transform: uppercase; box-shadow: 0 15px 30px -5px rgba(6, 55, 45, 0.3); transition: all 0.3s; }
+    .btn-premium:active { transform: scale(0.96); }
+    .nav-floating { backdrop-filter: blur(25px); background: rgba(255, 253, 245, 0.92); border: 1px solid rgba(177, 144, 83, 0.25); box-shadow: 0 15px 30px -10px rgba(0,0,0,0.1); }
     .loader { border-radius: 50%; border: 4px solid #f3f3f3; border-top: 4px solid var(--srg-gold); width: 40px; height: 40px; animation: spinner 1.2s linear infinite; }
     @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @media print { .no-print { display: none !important; } }
   </style>
 </head>
 <body class="min-h-screen">
+
+  <!-- TOAST SYSTEM -->
+  <div id="srgToast" class="fixed bottom-8 right-8 z-[1100] transform translate-x-[120%] transition-all duration-500 no-print">
+      <div class="capsule-card px-8 py-4 bg-white flex items-center space-x-4">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center bg-srg-green text-srg-gold shadow-md"><i class="fas fa-check"></i></div>
+          <div><p class="text-[10px] font-black text-srg-gold uppercase tracking-widest">Sistem</p><p id="toastMessage" class="text-xs font-bold text-slate-700 italic"></p></div>
+      </div>
+  </div>
 
   <div id="loadingOverlay" class="fixed inset-0 bg-white/80 z-[2000] flex flex-col items-center justify-center hidden backdrop-blur-sm">
       <div class="loader"></div>
       <p class="mt-4 font-black text-srg-green text-[10px] tracking-[0.4em] uppercase">SINKRONISASI DATA...</p>
   </div>
 
-  <!-- LOGIN SECTION (SINKRONISASI IMAGE_544C9E) -->
+  <!-- LOGIN SECTION (Identik Image_544c9e) -->
   <div id="loginSection" class="flex items-center justify-center min-h-screen p-6">
-    <div class="login-card p-10 md:p-14 w-full max-w-lg text-center">
-      <div class="mb-12">
-          <!-- Logo Circle SRG -->
-          <div class="w-32 h-32 bg-srg-green rounded-full flex items-center justify-center mx-auto shadow-2xl border-4 border-[#b19053] mb-8">
-              <span class="text-srg-gold font-black text-5xl italic tracking-tighter">SRG</span>
+    <div class="capsule-card p-12 w-full max-w-md text-center border-white/60">
+      <div class="mb-10">
+          <div class="w-28 h-28 bg-srg-green rounded-full flex items-center justify-center mx-auto shadow-2xl border-4 border-srg-gold">
+              <span class="text-srg-gold font-black text-4xl italic">SRG</span>
           </div>
-          <!-- Title Branding -->
-          <h1 class="text-3xl font-black text-[#06372d] italic tracking-tight uppercase leading-none">PT SUBUR RAYA GROUP</h1>
-          <p class="text-srg-gold text-[10px] font-black tracking-[0.45em] uppercase mt-3 italic">ELITE FINANCIAL SYSTEM</p>
+          <h1 class="text-2xl font-black text-srg-green tracking-tight uppercase italic mt-8 leading-tight">PT SUBUR RAYA GROUP</h1>
+          <p class="text-srg-gold text-[10px] font-black tracking-[0.4em] uppercase mt-2 italic">ELITE FINANCIAL SYSTEM</p>
       </div>
-
-      <div class="space-y-8 text-left max-w-sm mx-auto">
-        <!-- ID PENGGUNA -->
-        <div class="group">
-          <label class="block text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 tracking-widest italic">ID PENGGUNA</label>
-          <input type="text" id="usernameInput" class="capsule-input w-full px-8 py-5 font-bold text-sm text-slate-800 outline-none" placeholder="username">
+      <div class="space-y-6 text-left max-w-xs mx-auto">
+        <div><label class="block text-[10px] font-black text-slate-400 uppercase mb-2 ml-4 tracking-widest italic">ID PENGGUNA</label><input type="text" id="usernameInput" class="capsule-input w-full px-8 py-5 font-bold text-sm" placeholder="username"></div>
+        <div>
+          <label class="block text-[10px] font-black text-slate-400 uppercase mb-2 ml-4 tracking-widest italic">KATA SANDI</label>
+          <div class="relative"><input type="password" id="passwordInput" class="capsule-input w-full px-8 py-5 font-bold text-sm pr-14" placeholder="password"><button onclick="togglePass()" class="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 hover:text-srg-gold"><i id="passIcon" class="fas fa-eye"></i></button></div>
         </div>
-        
-        <!-- KATA SANDI -->
-        <div class="group relative">
-          <label class="block text-[10px] font-black text-slate-400 uppercase mb-3 ml-4 tracking-widest italic">KATA SANDI</label>
-          <div class="relative">
-              <input type="password" id="passwordInput" class="capsule-input w-full px-8 py-5 font-bold text-sm pr-14 outline-none" placeholder="password">
-              <button type="button" onclick="togglePasswordVisibility()" class="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 hover:text-srg-gold transition-colors">
-                  <i id="passwordToggleIcon" class="fas fa-eye"></i>
-              </button>
-          </div>
-        </div>
-
-        <!-- REMEMBER ME -->
         <div class="flex items-center space-x-3 ml-4">
-          <input type="checkbox" id="rememberMe" class="w-4 h-4 text-srg-green border-slate-300 rounded focus:ring-srg-gold cursor-pointer">
-          <label for="rememberMe" class="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em] cursor-pointer">SIMPAN ID & KATA SANDI</label>
+          <input type="checkbox" id="remMe" class="w-4 h-4 rounded border-gray-300 text-srg-green focus:ring-srg-gold cursor-pointer"><label for="remMe" class="text-[9px] font-black text-slate-400 uppercase tracking-widest cursor-pointer italic">SIMPAN ID & KATA SANDI</label>
         </div>
-
-        <!-- LOGIN BUTTON -->
-        <button onclick="handleLogin()" class="btn-main w-full py-7 text-sm shadow-2xl mt-4">Masuk Sistem</button>
+        <button onclick="handleLogin()" class="btn-premium w-full py-6 text-sm tracking-[0.2em] mt-4 shadow-2xl">Masuk Sistem</button>
       </div>
-
-      <!-- FOOTER COPYRIGHT -->
-      <div class="mt-16 text-[9px] text-slate-400 font-black tracking-[0.4em] uppercase italic">
-        © 2025 PT SUBUR RAYA GROUP
-      </div>
+      <div class="mt-14 text-[9px] text-slate-300 font-black tracking-[0.4em] uppercase italic">© 2025 PT SUBUR RAYA GROUP</div>
     </div>
   </div>
 
-  <!-- MAIN SECTION (Dashboard & Input) -->
+  <!-- MAIN SECTION -->
   <div id="mainSection" class="hidden">
-    <!-- NAVBAR FLOATING -->
+    <!-- NAV FLOATING (Identik Image_5e488d) -->
     <div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[1000] w-[92%] max-w-2xl no-print">
-        <nav class="nav-floating rounded-full p-2 flex justify-between items-center px-6 border border-white/50 shadow-2xl">
+        <nav class="nav-floating rounded-full p-2 flex justify-between items-center px-6">
           <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 bg-srg-green rounded-full flex items-center justify-center text-srg-gold border border-srg-gold/30 shadow-md">
-                  <span class="font-black text-[10px] italic">SRG</span>
-              </div>
+              <div class="w-10 h-10 bg-srg-green rounded-full flex items-center justify-center text-srg-gold border border-srg-gold/30 shadow-md"><span class="font-black text-[10px] italic">SRG</span></div>
+              <p class="text-srg-green font-black text-[11px] leading-tight italic uppercase hidden sm:block">PT SR GROUP</p>
           </div>
           <div class="flex bg-slate-100/50 p-1 rounded-full">
-            <button onclick="switchPage('dashboard')" class="nav-btn px-6 py-3 rounded-full text-[10px] font-black uppercase transition-all bg-srg-green text-srg-gold">Home</button>
+            <button onclick="switchPage('dashboard')" class="nav-btn px-6 py-3 rounded-full text-[10px] font-black uppercase transition-all bg-srg-green text-srg-gold shadow-sm">Home</button>
             <button onclick="switchPage('input')" class="nav-btn px-6 py-3 rounded-full text-[10px] font-black uppercase text-slate-400 transition-all">Input</button>
+            <button id="nav-rekap-btn" onclick="switchPage('rekap')" class="nav-btn px-6 py-3 rounded-full text-[10px] font-black uppercase text-slate-400 transition-all hidden">Rekap</button>
           </div>
-          <button onclick="handleLogout()" class="w-10 h-10 rounded-full bg-white text-red-500 flex items-center justify-center shadow-md border border-slate-100">
-              <i class="fas fa-power-off text-xs"></i>
-          </button>
+          <div class="flex space-x-2">
+            <button onclick="refreshData()" class="w-9 h-9 rounded-full bg-white text-srg-green flex items-center justify-center shadow-md border border-slate-100 hover:bg-slate-50 transition-all"><i class="fas fa-sync-alt text-[10px]"></i></button>
+            <button onclick="window.print()" class="w-9 h-9 rounded-full bg-white text-blue-500 flex items-center justify-center shadow-md border border-slate-100 hover:bg-slate-50 transition-all"><i class="fas fa-download text-[10px]"></i></button>
+            <button onclick="handleLogout()" class="w-9 h-9 rounded-full bg-white text-red-500 flex items-center justify-center shadow-md border border-slate-100 hover:bg-slate-50 transition-all"><i class="fas fa-power-off text-[10px]"></i></button>
+          </div>
         </nav>
     </div>
 
     <main class="mx-auto py-16 px-4 w-full max-w-7xl">
       <!-- DASHBOARD PAGE -->
-      <div id="page-dashboard" class="space-y-10">
+      <div id="page-dashboard" class="space-y-8 animate-fade-in">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-            <div>
-                <p class="text-[10px] text-srg-gold font-black uppercase tracking-[0.5em] italic">Strategic Finance Overview</p>
-                <h2 class="text-4xl font-black text-srg-green italic uppercase tracking-tighter">Ringkasan Keuangan</h2>
-            </div>
-            <div class="flex items-center space-x-4 bg-white/90 p-4 rounded-full border border-white shadow-xl">
-                <div class="w-10 h-10 bg-srg-green rounded-full flex items-center justify-center font-black text-srg-gold italic shadow-inner">U</div>
-                <div class="pr-4">
-                    <p id="userDisplay" class="text-xs font-black text-srg-green italic uppercase leading-none"></p>
-                    <p id="roleDisplay" class="text-[8px] text-srg-gold font-black uppercase mt-1 tracking-widest"></p>
-                </div>
-            </div>
+            <div><p class="text-srg-gold text-[10px] font-black uppercase tracking-[0.5em] italic">Strategic Financial Overview</p><h2 class="text-4xl font-black text-srg-green italic uppercase tracking-tighter">Ringkasan Keuangan</h2></div>
+            <div class="bg-white/90 p-4 rounded-full border border-white shadow-xl flex items-center space-x-4"><div class="w-10 h-10 bg-srg-green rounded-full flex items-center justify-center font-black text-srg-gold italic shadow-inner">U</div><div class="pr-4"><p id="userDisplay" class="text-xs font-black text-srg-green italic uppercase leading-none"></p><p id="roleDisplay" class="text-[8px] text-srg-gold font-black uppercase mt-1 tracking-widest"></p></div></div>
         </div>
-
-        <!-- STATS GRID -->
         <div id="statsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
-
-        <!-- TABLE SECTION -->
-        <div class="login-card overflow-hidden bg-white/95">
-            <div class="p-8 border-b border-slate-100 flex items-center space-x-4">
-                <div class="w-2 h-6 bg-srg-gold rounded-full"></div>
-                <h3 class="font-black text-srg-green text-xs tracking-widest uppercase italic">Aktivitas Transaksi</h3>
-            </div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-xs italic">
-                    <thead class="bg-slate-50 text-[9px] font-black uppercase tracking-widest text-slate-400 border-b">
-                        <tr>
-                            <th class="p-6">WAKTU</th>
-                            <th>MITRA</th>
-                            <th class="text-right">OMSET</th>
-                            <th class="text-right">MODAL</th>
-                            <th class="text-right text-emerald-800">LABA KOTOR</th>
-                            <th>OPS DETAIL</th>
-                            <th class="text-center">AKSI</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dataTableBody" class="divide-y divide-slate-50"></tbody>
-                </table>
-            </div>
+        <div class="capsule-card overflow-hidden bg-white/95 border-white shadow-2xl">
+            <div class="p-8 border-b border-slate-100 flex items-center space-x-4"><div class="w-2 h-6 bg-srg-gold rounded-full"></div><h3 class="font-black text-srg-green text-xs tracking-widest uppercase italic">Aktivitas Transaksi</h3></div>
+            <div class="overflow-x-auto"><table class="w-full text-left text-xs italic"><thead class="bg-slate-50 text-[9px] font-black uppercase tracking-widest text-slate-400 border-b"><tr><th class="p-6">WAKTU</th><th>MITRA</th><th class="text-right">OMSET</th><th class="text-right">MODAL</th><th class="text-right text-emerald-800">LABA KOTOR</th><th>OPS DETAIL</th><th class="text-center">AKSI</th></tr></thead><tbody id="dataTableBody" class="divide-y divide-slate-100"></tbody></table></div>
         </div>
       </div>
 
       <!-- INPUT PAGE -->
       <div id="page-input" class="hidden max-w-2xl mx-auto">
-          <div class="login-card p-10 md:p-14">
+          <div class="capsule-card p-10 md:p-14 shadow-2xl border-white">
               <h2 class="text-3xl font-black text-srg-green italic uppercase mb-8">Data Entry</h2>
-              <form id="transForm" onsubmit="event.preventDefault(); handleSubmit();" class="space-y-8">
-                  <div class="grid grid-cols-2 gap-6">
-                    <div>
-                        <label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-2 block tracking-widest">Tanggal Laporan</label>
-                        <input type="date" id="f-tgl" required class="capsule-input w-full p-4 font-bold text-xs uppercase bg-gray-50/50">
-                    </div>
-                    <div>
-                        <label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-2 block tracking-widest">Identitas Mitra</label>
-                        <select id="f-mtr" class="capsule-input w-full p-4 font-bold text-xs outline-none cursor-pointer bg-gray-50/50"></select>
-                    </div>
+              <form onsubmit="event.preventDefault(); handleSubmit();" class="space-y-6">
+                  <div class="grid grid-cols-2 gap-4">
+                    <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-2 block tracking-widest">Tanggal Laporan</label><input type="date" id="f-tgl" required class="capsule-input w-full p-4 font-bold text-xs uppercase bg-gray-50/50"></div>
+                    <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-2 block tracking-widest">Identitas Mitra</label><select id="f-mtr" class="capsule-input w-full p-4 font-bold text-xs outline-none cursor-pointer bg-gray-50/50"></select></div>
                   </div>
-                  
-                  <div id="inputFields" class="space-y-8"></div>
-
-                  <div id="livePreview" class="hidden p-8 rounded-3xl bg-emerald-50 border border-emerald-100 flex justify-between items-center shadow-inner">
-                      <div class="text-left">
-                          <p class="text-[8px] font-black text-emerald-600 uppercase mb-1 italic tracking-widest">Hasil Laba Kotor (Estimasi)</p>
-                          <h4 id="labaKotorLive" class="text-2xl font-black text-emerald-800 italic">Rp 0</h4>
-                      </div>
-                      <i class="fas fa-calculator text-emerald-200 text-3xl"></i>
+                  <div id="inputFields" class="space-y-6">
+                    <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-2 block tracking-widest">Total Omset</label><input type="number" id="f-oms" oninput="liveCalc()" class="capsule-input w-full p-5 font-bold text-sm bg-gray-50/50" placeholder="0"></div>
+                    <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-2 block tracking-widest">Biaya Produksi</label><input type="number" id="f-mod" oninput="liveCalc()" class="capsule-input w-full p-5 font-bold text-sm bg-gray-50/50" placeholder="0"></div>
+                    <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-2 block tracking-widest">Biaya Operasional (Nominal)</label><input type="number" id="f-ops" oninput="liveCalc()" class="capsule-input w-full p-5 font-bold text-sm bg-gray-50/50" placeholder="0"></div>
+                    <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-2 block tracking-widest">Detail Keperluan</label><textarea id="f-ket" class="capsule-input w-full p-6 text-sm italic min-h-[120px] resize-none bg-gray-50/50" placeholder="Keterangan Detail..."></textarea></div>
                   </div>
-                  
-                  <button type="submit" class="btn-main w-full py-6 font-black text-xs tracking-widest mt-4">Simpan Laporan</button>
+                  <div id="livePreview" class="hidden p-8 rounded-3xl bg-emerald-50 border border-emerald-100 flex justify-between items-center shadow-inner"><div class="text-left"><p class="text-[8px] font-black text-emerald-600 uppercase mb-1 italic tracking-widest">Laba Kotor (Estimasi)</p><h4 id="labaKotorLive" class="text-2xl font-black text-emerald-800 italic">Rp 0</h4></div><i class="fas fa-calculator text-emerald-200 text-3xl"></i></div>
+                  <button type="submit" class="btn-premium w-full py-6 font-black text-xs tracking-widest mt-4">Simpan Laporan</button>
               </form>
           </div>
+      </div>
+
+      <!-- REKAP PAGE (Admin Only) -->
+      <div id="page-rekap" class="hidden space-y-8">
+          <div class="flex justify-between items-center">
+              <div><p class="text-srg-gold text-[10px] font-black uppercase tracking-[0.5em] italic">Consolidated Reports</p><h2 class="text-4xl font-black text-srg-green italic uppercase tracking-tighter">Rekapitulasi</h2></div>
+              <button onclick="window.print()" class="btn-premium px-10 py-4 text-[10px] italic">Export PDF</button>
+          </div>
+          <div id="rekapGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+          <div class="capsule-card bg-white overflow-hidden shadow-2xl border-white"><div class="p-8 border-b border-slate-50"><h4 class="font-black text-srg-green text-xs uppercase tracking-widest italic">Rincian Periode Aktif</h4></div><div class="overflow-x-auto"><table class="w-full text-[10px] italic"><thead class="bg-slate-50 font-black uppercase tracking-widest text-slate-400"><tr><th class="p-6">TANGGAL</th><th>MITRA</th><th class="text-right">LABA BERSIH</th><th class="text-right">PEMBAGIAN PT</th><th class="text-right">PEMBAGIAN MITRA</th></tr></thead><tbody id="rekapTableBody" class="divide-y divide-slate-100"></tbody></table></div></div>
       </div>
     </main>
   </div>
 
   <script>
-    // URL API GOOGLE APPS SCRIPT
-    const API_URL = "https://script.google.com/macros/s/AKfycbwb-mpHpk3kDnTg2WxX8lmKUpXfmT41PA3qivmLbtWvyZx-1yvgofx3etSPMvZRkL6E/exec";
-    
+    const API_URL = "https://script.google.com/macros/s/AKfycbwARGTnJwhyvOgSo0QSEJQWSarXbYQ594T6uj1uniLu5EtPxwBgNh9TrshDRuw7UK-h/exec";
     let currentUser = null;
-    let appData = [];
+    let transactions = [];
 
-    // FUNGSI KOMUNIKASI API
     async function callAPI(action, data = {}) {
         showLoading(true);
         try {
@@ -270,13 +152,14 @@
             return result;
         } catch (e) {
             showLoading(false);
-            alert("Sistem Sibuk / Gagal Terhubung ke Database.");
+            alert("Terjadi masalah koneksi ke server.");
             return { success: false };
         }
     }
 
     const fmt = (v) => "Rp " + new Intl.NumberFormat('id-ID').format(Math.floor(v || 0));
     function showLoading(s) { document.getElementById('loadingOverlay').classList.toggle('hidden', !s); }
+    function showToast(m) { const t = document.getElementById('srgToast'); document.getElementById('toastMessage').innerText = m; t.classList.remove('translate-x-[120%]'); setTimeout(()=>t.classList.add('translate-x-[120%]'), 4000); }
     function getMitraName(i) { if(i===1) return "ALBAROKAHSHOP30"; if(i===2) return "RADIATOR TUNGGAKSEMI"; return "MITRA "+i; }
 
     window.onload = () => {
@@ -284,17 +167,13 @@
         if(savedU && savedP) {
             document.getElementById('usernameInput').value = savedU;
             document.getElementById('passwordInput').value = savedP;
-            document.getElementById('rememberMe').checked = true;
+            document.getElementById('remMe').checked = true;
         }
-        const ft = document.getElementById('f-tgl'); if(ft) ft.valueAsDate = new Date();
     };
 
     async function handleLogin() {
-        const u = document.getElementById('usernameInput').value.toLowerCase().trim();
-        const p = document.getElementById('passwordInput').value.toLowerCase().trim();
-        const rem = document.getElementById('rememberMe').checked;
+        const u = document.getElementById('usernameInput').value, p = document.getElementById('passwordInput').value, rem = document.getElementById('remMe').checked;
         if(!u || !p) return;
-
         const res = await callAPI("checkLogin", { u, p });
         if(res.success) {
             currentUser = res;
@@ -305,126 +184,127 @@
             document.getElementById('mainSection').classList.remove('hidden');
             document.getElementById('userDisplay').innerText = res.username;
             document.getElementById('roleDisplay').innerText = res.role.toUpperCase();
-            setupUI();
-            refreshData();
-        } else alert("Akses Ditolak: Username atau Password salah.");
+            
+            // Atur Visibilitas Menu Berdasarkan Role
+            const rekapBtn = document.getElementById('nav-rekap-btn');
+            if(res.role === 'admin') rekapBtn.classList.remove('hidden');
+            else rekapBtn.classList.add('hidden');
+
+            setupForms(); refreshData();
+        } else alert("Akses Ditolak!");
     }
 
-    function setupUI() {
+    function setupForms() {
         const sel = document.getElementById('f-mtr');
-        const fields = document.getElementById('inputFields');
         sel.innerHTML = '';
         if(currentUser.role === 'admin') {
             for(let i=1; i<=20; i++) sel.add(new Option(getMitraName(i), getMitraName(i)));
-            fields.innerHTML = `<p class="text-center text-xs text-slate-400 font-bold italic py-10 uppercase tracking-widest border-2 border-dashed border-slate-100 rounded-3xl">Gunakan Akun Mitra untuk Input Data.</p>`;
         } else {
-            sel.add(new Option(currentUser.username, currentUser.username));
-            sel.disabled = true;
-            fields.innerHTML = `
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-2 block tracking-widest">Total Omset</label><input type="number" id="f-oms" oninput="liveCalc()" class="capsule-input w-full p-5 font-bold text-sm bg-gray-50/50" placeholder="0"></div>
-                    <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-2 block tracking-widest">Biaya Produksi</label><input type="number" id="f-mod" oninput="liveCalc()" class="capsule-input w-full p-5 font-bold text-sm bg-gray-50/50" placeholder="0"></div>
-                </div>
-                <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-2 block tracking-widest">Biaya Operasional (Nominal)</label><input type="number" id="f-ops" class="capsule-input w-full p-5 font-bold text-sm bg-gray-50/50" placeholder="0"></div>
-                <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-2 block tracking-widest">Detail Keperluan</label><textarea id="f-ket" class="capsule-input w-full p-6 text-sm italic min-h-[120px] resize-none bg-gray-50/50" placeholder="Contoh: Gaji Karyawan, Biaya Iklan, dll..."></textarea></div>`;
+            sel.add(new Option(currentUser.username, currentUser.username)); sel.disabled = true;
         }
+        document.getElementById('f-tgl').valueAsDate = new Date();
     }
 
     async function refreshData() {
         const res = await callAPI("getAppData", currentUser);
-        if(res.success) { appData = res.transactions; updateDashboard(); }
+        if(res.success) { transactions = res.transactions; updateUI(); }
     }
 
-    function updateDashboard() {
-        const grid = document.getElementById('statsGrid');
-        let s = { o:0, bp:0, bo:0, lk:0, pt:0, m:0, c:0, lb:0 };
-        appData.forEach(r => {
-            const o = parseFloat(r.OMSET||0), bp = parseFloat(r.MODAL||0), bo = parseFloat(r["TOTAL OPS"]||r["BIAYA OPERASIONAL"]||0);
-            const lk = o - bp, lb = lk - bo, csr = lb > 0 ? lb * 0.05 : 0, hasil = lb - csr;
-            s.o += o; s.bp += bp; s.bo += bo; s.lk += lk; s.lb += lb; s.c += csr; s.pt += (hasil * 0.2); s.m += (hasil * 0.8);
+    function updateUI() {
+        let s = { o:0, bp:0, lk:0, pt:0, m:0 };
+        transactions.forEach(r => {
+            const om = parseFloat(r.OMSET||0), mod = parseFloat(r.MODAL||0);
+            s.o += om; s.bp += mod; s.lk += (om-mod);
+            s.pt += parseFloat(r["PEMBAGIAN PT"]||0); s.m += parseFloat(r["PEMBAGIAN MITRA"]||0);
         });
         
-        const config = [
-            {l:"Total Omset", v:s.o, bg:"bg-amber-50", text:"text-amber-800"},
-            {l:"Laba Kotor (O-M)", v:s.lk, bg:"bg-emerald-50", text:"text-emerald-800"},
-            {l:"Pembagian PT (20%)", v:s.pt, bg:"bg-[#06372d]", text:"text-[#b19053]"},
-            {l:"Bagian Mitra (80%)", v:s.m, bg:"bg-orange-50", text:"text-orange-700"}
-        ];
-        grid.innerHTML = config.map(c => `
-            <div class="login-card p-8 ${c.bg} border-white shadow-xl">
+        const grid = document.getElementById('statsGrid');
+        const cards = [
+            {l:"Total Omset", v:s.o, c:"bg-amber-50 text-amber-800"},
+            {l:"Laba Kotor (O-M)", v:s.lk, c:"bg-emerald-50 text-emerald-800"},
+            {l:"Bagian PT (20%)", v:s.pt, c:"bg-srg-green text-srg-gold", role:"admin"},
+            {l:"Bagian Anda (80%)", v:s.m, c:"bg-orange-50 text-orange-700", role:"mitra"}
+        ].filter(c => !c.role || c.role === currentUser.role || currentUser.role === 'admin');
+
+        grid.innerHTML = cards.map(c => `
+            <div class="capsule-card p-8 ${c.c} border-white">
                 <p class="text-[8px] font-black uppercase opacity-70 tracking-widest mb-1 italic">${c.l}</p>
-                <h3 class="text-xl font-black italic ${c.text}">${fmt(c.v)}</h3>
+                <h3 class="text-xl font-black italic">${fmt(c.v)}</h3>
             </div>`).join('');
         
         const body = document.getElementById('dataTableBody');
-        body.innerHTML = appData.slice(-10).reverse().map(r => `
+        body.innerHTML = transactions.slice(-10).reverse().map(r => `
             <tr>
                 <td class="p-6 font-bold text-slate-400">${r.TANGGAL}</td>
                 <td class="font-black text-srg-green italic uppercase">${r.MITRA}</td>
                 <td class="text-right">${fmt(r.OMSET)}</td>
                 <td class="text-right">${fmt(r.MODAL)}</td>
                 <td class="text-right font-black text-emerald-800 italic">${fmt(parseFloat(r.OMSET)-parseFloat(r.MODAL))}</td>
-                <td class="px-6 text-[10px] italic text-slate-500 max-w-[200px] truncate">${r["BIAYA OPERASIONAL (DETAIL)"] || '-'}</td>
-                <td class="text-center">
-                    <button onclick="deleteTx('${r.ID}')" class="text-red-300 hover:text-red-500 transition-colors">
-                        <i class="fas fa-trash-alt text-sm"></i>
-                    </button>
-                </td>
+                <td class="px-6 text-[10px] italic text-slate-500">${r["BIAYA OPERASIONAL (DETAIL)"] || '-'}</td>
+                <td class="text-center"><button onclick="deleteTx('${r.ID}')" class="text-red-300 hover:text-red-500"><i class="fas fa-trash-alt text-xs"></i></button></td>
             </tr>`).join('');
+
+        if(currentUser.role === 'admin') {
+            const rGrid = document.getElementById('rekapGrid');
+            rGrid.innerHTML = `
+                <div class="capsule-card p-8 bg-srg-green text-srg-gold text-center border-srg-gold/20"><p class="text-[8px] uppercase italic opacity-70 mb-1">Profit Perusahaan</p><h3 class="text-2xl font-black italic">${fmt(s.pt)}</h3></div>
+                <div class="capsule-card p-8 bg-emerald-50 text-emerald-800 text-center border-white"><p class="text-[8px] uppercase italic opacity-70 mb-1">Total Laba Kotor</p><h3 class="text-2xl font-black italic">${fmt(s.lk)}</h3></div>
+                <div class="capsule-card p-8 bg-orange-50 text-orange-700 text-center border-white"><p class="text-[8px] uppercase italic opacity-70 mb-1">Profit Mitra (Total)</p><h3 class="text-2xl font-black italic">${fmt(s.m)}</h3></div>
+            `;
+            const rBody = document.getElementById('rekapTableBody');
+            rBody.innerHTML = transactions.map(t => `<tr><td class="p-6">${t.TANGGAL}</td><td class="font-bold">${t.MITRA}</td><td class="text-right font-bold">${fmt(t["LABA BERSIH"])}</td><td class="text-right text-srg-green font-bold">${fmt(t["PEMBAGIAN PT"])}</td><td class="text-right text-orange-600 font-bold">${fmt(t["PEMBAGIAN MITRA"])}</td></tr>`).join('');
+        }
     }
 
     async function handleSubmit() {
-        const d = {
-            tanggal: document.getElementById('f-tgl').value,
-            mitra: document.getElementById('f-mtr').value,
-            omset: parseFloat(document.getElementById('f-oms').value || 0),
-            bProduksi: parseFloat(document.getElementById('f-mod').value || 0),
-            bOperasional: parseFloat(document.getElementById('f-ops').value || 0),
-            keterangan: document.getElementById('f-ket').value
+        const d = { 
+            tanggal: document.getElementById('f-tgl').value, 
+            mitra: document.getElementById('f-mtr').value, 
+            omset: parseFloat(document.getElementById('f-oms').value || 0), 
+            bProduksi: parseFloat(document.getElementById('f-mod').value || 0), 
+            bOperasional: parseFloat(document.getElementById('f-ops').value || 0), 
+            keterangan: document.getElementById('f-ket').value 
         };
         const res = await callAPI("submitTransaction", d);
         if(res.success) { 
-            document.getElementById('transForm').reset();
-            switchPage('dashboard'); 
-            refreshData(); 
+            showToast("Laporan Berhasil Disimpan"); 
+            document.querySelectorAll('input[type="number"], textarea').forEach(i => i.value = '');
+            switchPage('dashboard'); refreshData(); 
         }
     }
 
     async function deleteTx(id) {
-        if(confirm("Hapus data ini selamanya?")) {
+        if(confirm("Hapus transaksi ini secara permanen?")) {
             const res = await callAPI("deleteTransaction", { id });
-            if(res.success) refreshData();
+            if(res.success) { showToast("Data Berhasil Dihapus"); refreshData(); }
         }
     }
 
     function switchPage(p) {
-        document.getElementById('page-dashboard').classList.toggle('hidden', p!=='dashboard');
-        document.getElementById('page-input').classList.toggle('hidden', p!=='input');
+        document.getElementById('page-dashboard').classList.toggle('hidden', p !== 'dashboard');
+        document.getElementById('page-input').classList.toggle('hidden', p !== 'input');
+        const rekap = document.getElementById('page-rekap'); if(rekap) rekap.classList.toggle('hidden', p !== 'rekap');
+        
         document.querySelectorAll('.nav-btn').forEach(b => {
-            const active = b.innerText.toLowerCase() === (p==='dashboard'?'home':p);
+            const active = b.innerText.toLowerCase().includes(p==='dashboard'?'home':p);
             b.classList.toggle('bg-srg-green', active);
             b.classList.toggle('text-srg-gold', active);
+            b.classList.toggle('shadow-sm', active);
             b.classList.toggle('text-slate-400', !active);
         });
     }
 
     function liveCalc() {
-        const o = parseFloat(document.getElementById('f-oms')?.value || 0);
-        const m = parseFloat(document.getElementById('f-mod')?.value || 0);
-        const res = o - m;
+        const o = parseFloat(document.getElementById('f-oms')?.value || 0), m = parseFloat(document.getElementById('f-mod')?.value || 0);
+        const lk = o - m;
         const el = document.getElementById('livePreview');
         if(el) {
-            el.classList.toggle('hidden', res === 0);
-            document.getElementById('labaKotorLive').innerText = fmt(res);
+            el.classList.toggle('hidden', lk === 0);
+            document.getElementById('labaKotorLive').innerText = fmt(lk);
         }
     }
-
-    function togglePasswordVisibility() {
-        const p = document.getElementById('passwordInput'), i = document.getElementById('passwordToggleIcon');
-        p.type = p.type === 'password' ? 'text' : 'password';
-        i.className = p.type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
-    }
     
+    function togglePass() { const p = document.getElementById('passwordInput'), i = document.getElementById('passIcon'); p.type = p.type === 'password' ? 'text' : 'password'; i.className = p.type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash'; }
     function handleLogout() { location.reload(); }
   </script>
 </body>
