@@ -67,6 +67,7 @@
     .capsule-input { border-radius: 1.5rem; border: 1px solid #e2e8f0; background: white; outline: none; }
     .capsule-input:focus { border-color: var(--srg-gold); box-shadow: 0 0 0 4px rgba(177, 144, 83, 0.1); }
 
+    /* POSISI NAVIGASI DI ATAS */
     .nav-floating { backdrop-filter: blur(25px); background: rgba(255, 253, 245, 0.92); border: 1px solid rgba(177, 144, 83, 0.2); box-shadow: 0 15px 30px -5px rgba(0,0,0,0.1); }
     .nav-btn-active { background-color: #06372d; color: #b19053 !important; }
 
@@ -101,6 +102,7 @@
             <input type="password" id="passInput" class="capsule-input w-full px-8 py-5 font-bold text-sm pr-14" placeholder="password">
             <button onclick="togglePass()" class="absolute right-6 top-[2.4rem] text-slate-400 hover:text-srg-gold"><i id="passIcon" class="fas fa-eye"></i></button>
         </div>
+        <!-- SIMPAN ID & KATA SANDI -->
         <div class="flex items-center space-x-3 ml-4">
             <input type="checkbox" id="remMe" class="w-4 h-4 rounded border-gray-300 text-srg-green focus:ring-srg-gold cursor-pointer">
             <label for="remMe" class="text-[9px] font-black text-slate-400 uppercase tracking-widest cursor-pointer italic">SIMPAN ID & KATA SANDI</label>
@@ -113,7 +115,7 @@
 
   <!-- MAIN CONTENT -->
   <div id="mainSection" class="hidden">
-    <!-- NAVBAR FLOATING DI ATAS -->
+    <!-- NAVBAR FLOATING DI ATAS (SESUAI INSTRUKSI) -->
     <div class="fixed top-8 left-1/2 -translate-x-1/2 z-[1000] w-[92%] max-w-2xl no-print">
         <nav class="nav-floating rounded-full p-2 flex justify-between items-center px-6">
           <div class="flex items-center space-x-3">
@@ -181,7 +183,7 @@
                         <div class="card-pekat-green p-6 rounded-[2rem] text-center"><p class="text-[8px] font-black uppercase mb-1 opacity-60">Pembagian PT (20%)</p><h5 id="c-res-pt" class="text-sm font-black">Rp 0</h5></div>
                         <div class="card-soft-gold p-6 rounded-[2rem] text-center text-orange-700 border-orange-200"><p class="text-[8px] font-black uppercase mb-1 opacity-70">Pembagian Mitra (80%)</p><h5 id="c-res-mtr" class="text-sm font-black">Rp 0</h5></div>
                     </div>
-                    <!-- BARU: Laba Bersih & CSR -->
+                    <!-- INFO LABA & CSR SESUAI INSTRUKSI -->
                     <div class="grid grid-cols-2 gap-4">
                         <div class="card-soft-green p-6 rounded-[2rem] text-center text-emerald-800"><p class="text-[8px] font-black uppercase mb-1">Laba Bersih (LK-BO)</p><h5 id="c-res-lb" class="text-sm font-black">Rp 0</h5></div>
                         <div class="card-soft-gold p-6 rounded-[2rem] text-center text-slate-500"><p class="text-[8px] font-black uppercase mb-1">CSR (LB * 5%)</p><h5 id="c-res-csr" class="text-sm font-black">Rp 0</h5></div>
@@ -191,7 +193,7 @@
         </div>
       </div>
 
-      <!-- REKAP -->
+      <!-- REKAP (IDENTIK GAMBAR NOMOR 2) -->
       <div id="page-rekap" class="hidden space-y-12">
         <div class="flex justify-between items-end gap-6">
             <div class="border-l-8 border-srg-green pl-8">
@@ -210,7 +212,7 @@
               <div class="md:col-span-3"><button onclick="updateRekap()" class="btn-premium w-full py-5 text-xs italic tracking-widest">TAMPILKAN DATA</button></div>
             </div>
         </div>
-        <!-- Summary Cards Rekap Sesuai Gambar Referensi -->
+        <!-- RANGKUMAN KARTU SESUAI GAMBAR 2 -->
         <div id="rekapStats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6"></div>
         
         <div class="capsule-card overflow-hidden bg-white/95 border-white shadow-2xl">
@@ -222,7 +224,7 @@
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbwSQ6nC2UxP6Y0EShHmTA_cHdShWHMPEzJ0Sel43vo49SDK-jSgydD0X0X4_XvsYdgk/exec";
+    const API_URL = "https://script.google.com/macros/s/AKfycbzaatuR8Vcy2l0KY9Hjogvv5T9mRe99hByePFouprCKbm-79SOIznLaaTPkK7tPBbDL/exec";
     let user = null;
     let transactions = [];
 
@@ -236,7 +238,7 @@
             return result;
         } catch (e) {
             showLoading(false);
-            alert("Terjadi masalah koneksi ke server.");
+            alert("Koneksi gagal.");
             return { success: false };
         }
     }
@@ -268,7 +270,7 @@
             document.getElementById('roleDisplay').innerText = user.role.toUpperCase();
             if(user.role === 'admin') document.getElementById('nav-rekap').classList.remove('hidden');
             setupUI(); refreshData();
-        } else alert("Akses Ditolak!");
+        } else alert("Login Gagal!");
     }
 
     function setupUI() {
@@ -351,7 +353,7 @@
     async function submitData() {
         const d = { tanggal: document.getElementById('f-tgl').value, mitra: document.getElementById('f-mtr').value, omset: parseFloat(document.getElementById('f-oms').value || 0), bProduksi: parseFloat(document.getElementById('f-mod').value || 0), bOperasional: parseFloat(document.getElementById('f-ops').value || 0), keterangan: document.getElementById('f-ket').value };
         const res = await callAPI("submitTransaction", d);
-        if(res.success) { alert("Data Tersimpan!"); refreshData(); switchPage('dashboard'); }
+        if(res.success) { alert("Data Berhasil Disimpan!"); refreshData(); switchPage('dashboard'); }
     }
 
     async function deleteTx(id) {
@@ -416,7 +418,7 @@
 
     function togglePass() { const p = document.getElementById('passInput'), i = document.getElementById('passIcon'); p.type = p.type === 'password' ? 'text' : 'password'; i.className = p.type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash'; }
     function handleLogout() { location.reload(); }
-    function liveCalc() { /* ... */ }
+    function liveCalc() { /* visual sync jika perlu */ }
   </script>
 </body>
 </html>
