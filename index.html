@@ -67,39 +67,55 @@
     .capsule-input { border-radius: 1.5rem; border: 1px solid #e2e8f0; background: white; outline: none; }
     .capsule-input:focus { border-color: var(--srg-gold); box-shadow: 0 0 0 4px rgba(177, 144, 83, 0.1); }
 
-    /* POSISI NAVIGASI DI ATAS */
+    /* NAVBAR FLOATING DI ATAS */
     .nav-floating { backdrop-filter: blur(25px); background: rgba(255, 253, 245, 0.92); border: 1px solid rgba(177, 144, 83, 0.2); box-shadow: 0 15px 30px -5px rgba(0,0,0,0.1); }
     .nav-btn-active { background-color: #06372d; color: #b19053 !important; }
 
-    .btn-premium { border-radius: 9999px; background: #06372d; color: #b19053 !important; font-weight: 800; text-transform: uppercase; }
+    .btn-premium { border-radius: 9999px; background: #06372d; color: #b19053 !important; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: all 0.3s; }
+    .btn-premium:active { transform: scale(0.96); }
     
     .loader { border-radius: 50%; border: 4px solid #f3f3f3; border-top: 4px solid var(--srg-gold); width: 40px; height: 40px; animation: spinner 1.2s linear infinite; }
     @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    .srg-modal-overlay { position: fixed; inset: 0; background: rgba(4, 38, 31, 0.75); backdrop-filter: blur(12px); z-index: 2000; display: none; align-items: center; justify-content: center; }
+    .srg-modal-overlay.active { display: flex; }
+
     @media print { .no-print { display: none !important; } }
   </style>
 </head>
 <body class="min-h-screen">
 
-  <div id="loadingOverlay" class="fixed inset-0 bg-white/80 z-[2000] flex flex-col items-center justify-center hidden backdrop-blur-sm">
+  <!-- NOTIFIKASI TOAST DENGAN LOGO -->
+  <div id="srgToast" class="fixed bottom-8 right-8 z-[1100] transform translate-x-[120%] transition-all duration-500 no-print">
+      <div class="capsule-card px-8 py-4 bg-white flex items-center space-x-4 border-l-4 border-srg-gold">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center bg-srg-green text-srg-gold shadow-md font-black text-[10px] italic border border-srg-gold/30">SRG</div>
+          <div><p class="text-[10px] font-black text-srg-gold uppercase tracking-widest">Sistem Konfirmasi</p><p id="toastMessage" class="text-xs font-bold text-slate-700 italic"></p></div>
+      </div>
+  </div>
+
+  <!-- MODAL DENGAN LOGO -->
+  <div id="srgModal" class="srg-modal-overlay no-print">
+      <div class="capsule-card w-[92%] max-w-md p-10 text-center relative overflow-hidden border-white shadow-2xl">
+          <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl border-4 border-srg-gold bg-srg-green"><span class="text-srg-gold font-black text-xl italic leading-none">SRG</span></div>
+          <h3 id="modalTitle" class="text-xl font-black text-srg-green uppercase italic mb-2">Pemberitahuan</h3>
+          <p id="modalMessage" class="text-sm text-slate-600 italic mb-8"></p>
+          <div id="modalActionContainer" class="flex flex-col space-y-3"></div>
+      </div>
+  </div>
+
+  <div id="loadingOverlay" class="fixed inset-0 bg-white/80 z-[3000] flex flex-col items-center justify-center hidden backdrop-blur-sm">
       <div class="loader"></div>
       <p class="mt-4 font-black text-srg-green text-[10px] tracking-[0.4em] uppercase">SINKRONISASI DATA...</p>
   </div>
 
-  <div id="srgToast" class="fixed bottom-8 right-8 z-[1100] transform translate-x-[120%] transition-all duration-500 no-print">
-      <div class="capsule-card px-8 py-4 bg-white flex items-center space-x-4">
-          <div class="w-10 h-10 rounded-full flex items-center justify-center bg-srg-green text-srg-gold shadow-md"><i class="fas fa-info"></i></div>
-          <div><p class="text-[10px] font-black text-srg-gold uppercase tracking-widest">Sistem</p><p id="toastMessage" class="text-xs font-bold text-slate-700 italic"></p></div>
-      </div>
-  </div>
-
   <!-- LOGIN SECTION -->
   <div id="loginSection" class="flex items-center justify-center min-h-screen p-6">
-    <div class="capsule-card p-12 w-full max-w-md text-center">
+    <div class="capsule-card p-12 w-full max-w-md text-center border-white/60 shadow-2xl">
       <div class="mb-10">
           <div class="w-28 h-28 bg-srg-green rounded-full flex items-center justify-center mx-auto shadow-2xl border-4 border-srg-gold">
               <span class="text-srg-gold font-black text-4xl italic">SRG</span>
           </div>
-          <h1 class="text-2xl font-extrabold text-[#06372d] tracking-tight uppercase italic mt-8 leading-tight">PT SUBUR RAYA GROUP</h1>
+          <h1 class="text-2xl font-black text-srg-green tracking-tight uppercase italic mt-8 leading-tight">PT SUBUR RAYA GROUP</h1>
           <p class="text-srg-gold text-[10px] font-black tracking-[0.4em] uppercase mt-2 italic">ELITE FINANCIAL SYSTEM</p>
       </div>
       <div class="space-y-6 text-left max-w-xs mx-auto">
@@ -134,9 +150,9 @@
             <button id="nav-rekap" onclick="switchPage('rekap')" class="nav-btn px-6 py-3 rounded-full text-[10px] font-black uppercase text-slate-400 transition-all hidden">Rekap</button>
           </div>
           <div class="flex space-x-2">
-            <button onclick="refreshData()" class="w-9 h-9 rounded-full bg-white text-srg-green flex items-center justify-center shadow-md border border-slate-100"><i class="fas fa-sync-alt text-[10px]"></i></button>
-            <button onclick="handleAppDownload()" class="w-9 h-9 rounded-full bg-white text-blue-500 flex items-center justify-center shadow-md border border-slate-100"><i class="fas fa-download text-[10px]"></i></button>
-            <button onclick="handleLogout()" class="w-9 h-9 rounded-full bg-white text-red-500 flex items-center justify-center shadow-md border border-slate-100"><i class="fas fa-power-off text-[10px]"></i></button>
+            <button onclick="triggerSync()" class="w-9 h-9 rounded-full bg-white text-srg-green flex items-center justify-center shadow-md border border-slate-100 hover:bg-slate-50 transition-all"><i class="fas fa-sync-alt text-[10px]"></i></button>
+            <button onclick="handleAppDownload()" class="w-9 h-9 rounded-full bg-white text-blue-500 flex items-center justify-center shadow-md border border-slate-100 hover:bg-slate-50 transition-all"><i class="fas fa-download text-[10px]"></i></button>
+            <button onclick="handleLogoutRequest()" class="w-9 h-9 rounded-full bg-white text-red-500 flex items-center justify-center shadow-md border border-slate-100 hover:bg-slate-50 transition-all"><i class="fas fa-power-off text-[10px]"></i></button>
           </div>
         </nav>
     </div>
@@ -161,11 +177,11 @@
       <!-- INPUT -->
       <div id="page-input" class="hidden">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            <div class="lg:col-span-7 capsule-card p-12 md:p-16">
+            <div class="lg:col-span-7 capsule-card p-12 md:p-16 border-white shadow-2xl">
                 <h2 class="text-5xl font-black text-srg-green italic uppercase mb-12">CEK DATA MITRA</h2>
                 <div class="grid grid-cols-2 gap-8 mb-10">
-                  <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-3 block">Tanggal Laporan</label><input type="date" id="f-tgl" class="capsule-input w-full p-5 font-bold text-sm uppercase bg-gray-50/50"></div>
-                  <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-3 block">Identitas Mitra</label><select id="f-mtr" onchange="setupMitraForm()" class="capsule-input w-full p-5 font-bold text-sm outline-none bg-gray-50/50"></select></div>
+                  <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-3 block tracking-widest">Tanggal Laporan</label><input type="date" id="f-tgl" class="capsule-input w-full p-5 font-bold text-sm uppercase bg-gray-50/50"></div>
+                  <div><label class="text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-3 block tracking-widest">Identitas Mitra</label><select id="f-mtr" onchange="setupMitraForm()" class="capsule-input w-full p-5 font-bold text-sm outline-none bg-gray-50/50"></select></div>
                 </div>
                 <div id="mitraFormArea" class="hidden space-y-8 pt-8 border-t border-slate-100">
                     <div class="grid grid-cols-2 gap-8">
@@ -174,6 +190,13 @@
                     </div>
                     <input type="number" id="f-ops" oninput="liveCalc()" placeholder="Biaya Operasional" class="capsule-input w-full p-5 font-bold text-sm bg-white">
                     <textarea id="f-ket" class="capsule-input w-full p-6 text-sm italic min-h-[140px] resize-none" placeholder="Keterangan Detail Operasional..."></textarea>
+                    
+                    <!-- KALKULATOR PERHITUNGAN MITRA -->
+                    <div id="liveCalcPreview" class="hidden p-8 rounded-3xl bg-emerald-50 border border-emerald-100 flex justify-between items-center shadow-inner">
+                        <div class="text-left"><p class="text-[8px] font-black text-emerald-600 uppercase mb-1 italic tracking-widest">Laba Kotor (Estimasi)</p><h4 id="labaKotorLive" class="text-2xl font-black text-emerald-800 italic">Rp 0</h4></div>
+                        <i class="fas fa-calculator text-emerald-200 text-3xl"></i>
+                    </div>
+
                     <button onclick="submitData()" class="btn-premium w-full py-6 text-sm tracking-widest italic">SIMPAN LAPORAN</button>
                 </div>
             </div>
@@ -184,45 +207,42 @@
                     <div class="grid grid-cols-2 gap-4 mb-8"><input type="date" id="c-start" onchange="updateCek()" class="capsule-input p-3 text-[10px] font-bold text-center"><input type="date" id="c-end" onchange="updateCek()" class="capsule-input p-3 text-[10px] font-bold text-center"></div>
                 </div>
                 <div id="cekResultCards" class="space-y-4 pt-10 border-t border-slate-100">
-                    <div class="card-pekat-green p-10 rounded-[2.5rem] text-center"><p class="text-[9px] font-black uppercase opacity-70 mb-2">TOTAL OMSET</p><h4 id="c-res-oms" class="text-4xl font-black italic">Rp 0</h4></div>
+                    <div class="card-pekat-green p-10 rounded-[2.5rem] text-center shadow-lg"><p class="text-[9px] font-black uppercase opacity-70 mb-2">TOTAL OMSET</p><h4 id="c-res-oms" class="text-4xl font-black italic">Rp 0</h4></div>
                     <div class="grid grid-cols-2 gap-4">
                         <div class="card-pekat-green p-6 rounded-[2rem] text-center"><p class="text-[8px] font-black uppercase mb-1 opacity-60">Pembagian PT (20%)</p><h5 id="c-res-pt" class="text-sm font-black">Rp 0</h5></div>
                         <div class="card-soft-gold p-6 rounded-[2rem] text-center text-orange-700 border-orange-200"><p class="text-[8px] font-black uppercase mb-1 opacity-70">Pembagian Mitra (80%)</p><h5 id="c-res-mtr" class="text-sm font-black">Rp 0</h5></div>
                     </div>
-                    <!-- INFO LABA & CSR SESUAI INSTRUKSI -->
                     <div class="grid grid-cols-2 gap-4">
                         <div class="card-soft-green p-6 rounded-[2rem] text-center text-emerald-800"><p class="text-[8px] font-black uppercase mb-1">Laba Bersih (LK-BO)</p><h5 id="c-res-lb" class="text-sm font-black">Rp 0</h5></div>
-                        <div class="card-soft-gold p-6 rounded-[2rem] text-center text-slate-500"><p class="text-[8px] font-black uppercase mb-1">CSR (LB * 5%)</p><h5 id="c-res-csr" class="text-sm font-black">Rp 0</h5></div>
+                        <div class="card-soft-gold p-6 rounded-[2rem] text-center text-slate-500"><p class="text-[8px] font-black uppercase mb-1">Csr (LB * 5%)</p><h5 id="c-res-csr" class="text-sm font-black">Rp 0</h5></div>
                     </div>
                 </div>
             </div>
         </div>
       </div>
 
-      <!-- REKAP (IDENTIK GAMBAR NOMOR 2) -->
+      <!-- REKAP -->
       <div id="page-rekap" class="hidden space-y-12">
         <div class="flex justify-between items-end gap-6">
             <div class="border-l-8 border-srg-green pl-8">
-                <h2 class="text-6xl font-black text-srg-green italic uppercase tracking-tighter leading-none">REKAPITULASI LAPORAN</h2>
-                <p class="text-[11px] text-slate-400 font-bold uppercase tracking-[0.4em] mt-3 italic">DOKUMEN FORMAL PER PERIODE</p>
+                <h2 class="text-6xl font-black text-srg-green italic uppercase tracking-tighter leading-none text-wrap">REKAPITULASI LAPORAN</h2>
+                <p class="text-[11px] text-slate-400 font-bold uppercase tracking-[0.4em] mt-3 italic text-wrap">DOKUMEN FORMAL PER PERIODE</p>
             </div>
-            <button onclick="window.print()" class="btn-premium px-12 py-5 text-xs italic shadow-2xl">UNDUH / CETAK PDF</button>
+            <button onclick="window.print()" class="btn-premium px-12 py-5 text-xs italic shadow-2xl no-print">UNDUH / CETAK PDF</button>
         </div>
-        <div class="capsule-card p-12 bg-white/90 border-white shadow-2xl">
+        <div class="capsule-card p-12 bg-white/90 border-white shadow-2xl no-print">
             <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
               <div class="md:col-span-3"><label class="block text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-3">Periode Laporan</label><select id="r-mode" onchange="updateRekap()" class="capsule-input w-full p-5 bg-gray-50 font-bold text-xs outline-none uppercase"><option value="harian">HARIAN / MINGGUAN</option><option value="bulanan">BULANAN</option></select></div>
               <div class="md:col-span-6 grid grid-cols-2 gap-6">
-                  <div><label class="block text-[9px] font-black text-slate-400 uppercase mb-2 ml-4 italic">Dari</label><input type="date" id="r-start" onchange="updateRekap()" class="capsule-input w-full p-5 bg-gray-50 font-bold text-xs uppercase text-center"></div>
-                  <div><label class="block text-[9px] font-black text-slate-400 uppercase mb-2 ml-4 italic">Sampai</label><input type="date" id="r-end" onchange="updateRekap()" class="capsule-input w-full p-5 bg-gray-50 font-bold text-xs uppercase text-center"></div>
+                  <div><label class="block text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-3">Dari</label><input type="date" id="r-start" onchange="updateRekap()" class="capsule-input w-full p-5 bg-gray-50 font-bold text-xs uppercase text-center"></div>
+                  <div><label class="block text-[9px] font-black text-slate-400 uppercase italic ml-4 mb-3">Sampai</label><input type="date" id="r-end" onchange="updateRekap()" class="capsule-input w-full p-5 bg-gray-50 font-bold text-xs uppercase text-center"></div>
               </div>
               <div class="md:col-span-3"><button onclick="updateRekap()" class="btn-premium w-full py-5 text-xs italic tracking-widest">TAMPILKAN DATA</button></div>
             </div>
         </div>
-        <!-- RANGKUMAN KARTU SESUAI GAMBAR 2 (5 KARTU) -->
-        <div id="rekapStats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6"></div>
-        
+        <div id="rekapStats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 no-print"></div>
         <div class="capsule-card overflow-hidden bg-white/95 border-white shadow-2xl">
-            <div class="p-8 border-b border-slate-50 font-black text-srg-green uppercase text-[10px] italic">RINCIAN DATA TRANSAKSI TERKAIT</div>
+            <div class="p-10 border-b border-slate-50 font-black text-srg-green uppercase text-[10px] italic">RINCIAN DATA TRANSAKSI TERKAIT</div>
             <div class="overflow-x-auto"><table class="w-full text-left text-[10px] italic"><thead class="bg-slate-50/50 text-[8px] font-black uppercase tracking-[0.3em] text-slate-400 border-b"><tr><th class="p-6">WAKTU</th><th>MITRA</th><th class="text-right">OMSET</th><th class="text-right">MODAL</th><th class="text-right text-emerald-800 font-black italic">LABA BERSIH (LK-BO)</th><th>BIAYA OPS (INFO)</th><th class="text-right text-srg-gold">DANA CSR (5%)</th><th class="text-right text-srg-green">PEMBAGIAN PT</th><th class="text-right text-orange-700 font-black">PEMBAGIAN MITRA</th></tr></thead><tbody id="rekapTableBody" class="divide-y divide-slate-100"></tbody></table></div>
         </div>
       </div>
@@ -244,7 +264,7 @@
             return result;
         } catch (e) {
             showLoading(false);
-            showToast("Gagal terhubung ke database.");
+            showSRGModal({ title: "Koneksi Gagal", message: "Sistem tidak dapat terhubung ke database pusat." });
             return { success: false };
         }
     }
@@ -258,6 +278,22 @@
       t.classList.remove('translate-x-[120%]'); 
       setTimeout(()=>t.classList.add('translate-x-[120%]'), 4000); 
     }
+
+    function showSRGModal(o) {
+      const m = document.getElementById('srgModal'), a = document.getElementById('modalActionContainer');
+      document.getElementById('modalTitle').innerText = o.title || "PEMBERITAHUAN";
+      document.getElementById('modalMessage').innerHTML = o.message || "";
+      a.innerHTML = '';
+      if(o.confirm) {
+        const b1 = document.createElement('button'); b1.className = "btn-premium w-full py-4 text-xs font-black shadow-lg"; b1.innerText = o.confirmText || "LANJUTKAN"; b1.onclick = () => { closeSRGModal(); o.onConfirm(); };
+        const b2 = document.createElement('button'); b2.className = "w-full py-3 text-[10px] font-black text-slate-400 uppercase"; b2.innerText = "BATAL"; b2.onclick = closeSRGModal;
+        a.appendChild(b1); a.appendChild(b2);
+      } else {
+        const b = document.createElement('button'); b.className = "btn-premium w-full py-4 text-xs font-black shadow-lg"; b.innerText = "TUTUP"; b.onclick = closeSRGModal; a.appendChild(b);
+      }
+      m.style.display = 'flex'; setTimeout(() => m.classList.add('active'), 10);
+    }
+    function closeSRGModal() { const m = document.getElementById('srgModal'); m.classList.remove('active'); setTimeout(() => m.style.display = 'none', 300); }
 
     function getMitraName(i) { if(i===1) return "ALBAROKAHSHOP30"; if(i===2) return "RADIATOR TUNGGAKSEMI"; return "MITRA "+i; }
 
@@ -273,16 +309,16 @@
     async function handleLogin() {
         const u = document.getElementById('userInput').value.trim(), p = document.getElementById('passInput').value.trim();
         const rem = document.getElementById('remMe').checked;
-        if(!u || !p) return showToast("Mohon isi username dan password.");
+        if(!u || !p) return showToast("Lengkapi ID & Kata Sandi.");
 
-        showToast("Otentikasi sedang dicoba...");
+        showToast("Otentikasi sedang diproses...");
         const res = await callAPI("checkLogin", { u, p });
         if(res.success) {
             user = res;
             if(rem) { localStorage.setItem('srg_u', u); localStorage.setItem('srg_p', p); }
             else { localStorage.removeItem('srg_u'); localStorage.removeItem('srg_p'); }
             
-            showToast("Berhasil login! Menyiapkan dashboard...");
+            showToast("Otentikasi Berhasil! Selamat Datang.");
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('mainSection').classList.remove('hidden');
             document.getElementById('userDisplay').innerText = user.username;
@@ -290,7 +326,7 @@
             if(user.role === 'admin') document.getElementById('nav-rekap').classList.remove('hidden');
             setupUI(); refreshData();
         } else {
-            showToast("Akses Ditolak: Kredensial salah.");
+            showSRGModal({ title: "Akses Ditolak", message: "Kredensial yang Anda masukkan tidak terdaftar di sistem." });
         }
     }
 
@@ -347,15 +383,12 @@
             {l:"LABA KOTOR (O-BP)", v:s.lk, t:"card-soft-green", x:"text-emerald-800"},
             {l:"Margin (%) (LK/O)", v:margin, t:"card-soft-green", x:"text-srg-gold", isP: true},
             {l:"Laba Bersih (LK-BO)", v:s.lb, t:"card-soft-green", x:"text-emerald-800"},
-            {l:"CSR (LB * 5%)", v:s.csr, t:"card-pekat-green", x:"text-srg-gold"},
+            {l:"Csr (LB * 5%)", v:s.csr, t:"card-pekat-green", x:"text-srg-gold"},
             {l:"PEMBAGIAN PT", v:s.pt, t:"card-pekat-green", x:"text-srg-gold"},
             {l:"PEMBAGIAN MITRA", v:s.mtr, t:"card-soft-orange", x:"text-orange-700"}
         ];
 
-        // HAPUS MARGIN UNTUK MITRA SESUAI INSTRUKSI
-        if (user.role === 'mitra') {
-            config = config.filter(c => !c.isP);
-        }
+        if (user.role === 'mitra') { config = config.filter(c => !c.isP); }
 
         grid.innerHTML = config.map(c => `
             <div class="capsule-card p-10 ${c.t} text-center">
@@ -378,12 +411,30 @@
 
     async function submitData() {
         const d = { tanggal: document.getElementById('f-tgl').value, mitra: document.getElementById('f-mtr').value, omset: parseFloat(document.getElementById('f-oms').value || 0), bProduksi: parseFloat(document.getElementById('f-mod').value || 0), bOperasional: parseFloat(document.getElementById('f-ops').value || 0), keterangan: document.getElementById('f-ket').value };
+        if(!d.tanggal || !d.mitra || d.omset === 0) return showToast("Mohon lengkapi data laporan.");
+        
         const res = await callAPI("submitTransaction", d);
-        if(res.success) { showToast("Data Berhasil Disimpan!"); refreshData(); switchPage('dashboard'); }
+        if(res.success) { 
+            showSRGModal({ title: "Berhasil", message: "Laporan transaksi telah disimpan ke database SRG." });
+            refreshData(); switchPage('dashboard'); 
+        }
     }
 
     async function deleteTx(id) {
-        if(confirm("Hapus data ini?")) { const res = await callAPI("deleteTransaction", { id }); if(res.success) { showToast("Data Dihapus."); refreshData(); } }
+        showSRGModal({
+            title: "Hapus Data?",
+            message: "Data transaksi akan dihapus permanen dari sistem SRG.",
+            confirm: true,
+            onConfirm: async () => {
+                const res = await callAPI("deleteTransaction", { id });
+                if(res.success) { showToast("Data berhasil dihapus."); refreshData(); }
+            }
+        });
+    }
+
+    function triggerSync() {
+      showToast("Mensinkronisasi data terbaru...");
+      refreshData();
     }
 
     function switchPage(p) {
@@ -392,7 +443,7 @@
             if (el) el.classList.toggle('hidden', pg !== p);
         });
         document.querySelectorAll('.nav-btn').forEach(b => {
-            const act = b.id === 'nav-' + p;
+            const act = b.id === 'nav-' + (p === 'dashboard' ? 'dashboard' : p);
             b.classList.toggle('nav-btn-active', act); b.classList.toggle('text-slate-400', !act);
         });
     }
@@ -444,21 +495,36 @@
 
     function togglePass() { const p = document.getElementById('passInput'), i = document.getElementById('passIcon'); p.type = p.type === 'password' ? 'text' : 'password'; i.className = p.type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash'; }
     
-    function handleLogout() { 
-      showToast("Mengakhiri sesi...");
-      setTimeout(() => location.reload(), 1000); 
+    function handleLogoutRequest() {
+      showSRGModal({
+        title: "Keluar Sistem?",
+        message: "Sesi Anda akan segera diakhiri. Pastikan semua data telah tersimpan.",
+        confirm: true,
+        confirmText: "KELUAR SEKARANG",
+        onConfirm: () => {
+          showToast("Mengakhiri sesi...");
+          setTimeout(() => location.reload(), 800);
+        }
+      });
     }
 
     function handleAppDownload() {
-      const modal = {
+      showSRGModal({
         title: "Instal Aplikasi SRG",
-        message: "Untuk pengalaman terbaik, silakan instal aplikasi di perangkat Anda:<br><br><b>Android/Chrome:</b> Klik ikon 'tiga titik' lalu pilih 'Install App' atau 'Add to Home Screen'.<br><b>iOS/Safari:</b> Klik tombol 'Share' lalu pilih 'Add to Home Screen'.",
-      };
-      // Reuse of a simple alert for download instructions
-      alert(modal.message.replace(/<br>/g, '\n').replace(/<b>/g, '').replace(/<\/b>/g, ''));
+        message: "Simpan aplikasi ke layar utama untuk akses lebih cepat:<br><br><b>Android/Chrome:</b> Klik ikon 'tiga titik' di pojok browser lalu pilih <b>'Install App'</b>.<br><br><b>iOS/Safari:</b> Klik tombol <b>'Share'</b> di barah layar lalu pilih <b>'Add to Home Screen'</b>."
+      });
     }
 
-    function liveCalc() { /* visual sync jika perlu */ }
+    function liveCalc() {
+        const o = parseFloat(document.getElementById('f-oms')?.value || 0);
+        const m = parseFloat(document.getElementById('f-mod')?.value || 0);
+        const res = o - m;
+        const el = document.getElementById('liveCalcPreview');
+        if(el) {
+            el.classList.toggle('hidden', res === 0);
+            document.getElementById('labaKotorLive').innerText = fmt(res);
+        }
+    }
   </script>
 </body>
 </html>
