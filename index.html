@@ -11,76 +11,110 @@
     :root { --srg-green: #06372d; --srg-gold: #b19053; --srg-bg-gold: #fdfaf0; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--srg-bg-gold); color: #1a2e2a; }
     .srg-gradient { background: linear-gradient(135deg, var(--srg-green) 0%, #0a4d3f 100%); }
-    .btn-gold { background: var(--srg-gold); color: white; transition: all 0.3s; }
-    .btn-gold:hover { background: #967a45; transform: translateY(-2px); }
+    .btn-gold { background: linear-gradient(to right, var(--srg-gold), #967a45); color: white; transition: all 0.3s; }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(177, 144, 83, 0.4); }
+    .glass { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(177, 144, 83, 0.2); }
   </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen pb-10">
 
-  <div id="app" class="p-4 md:p-8">
-    <div class="max-w-4xl mx-auto">
-      <div class="srg-gradient p-6 rounded-2xl text-white shadow-xl mb-8">
-        <h1 class="text-2xl font-bold tracking-tight">PT SUBUR RAYA GROUP</h1>
-        <p class="opacity-80 text-sm">Sistem Laporan Keuangan Profesional</p>
-      </div>
+  <div id="loginPage" class="max-w-md mx-auto pt-20 px-6">
+    <div class="text-center mb-10">
+        <div class="w-20 h-20 bg-[#06372d] rounded-full mx-auto mb-4 flex items-center justify-center shadow-xl border-2 border-[#b19053]">
+            <i class="fas fa-landmark text-3xl text-[#b19053]"></i>
+        </div>
+        <h1 class="text-2xl font-bold text-[#06372d]">PT SUBUR RAYA GROUP</h1>
+        <p class="text-[#b19053] text-xs uppercase tracking-widest font-bold">Accounting Professional</p>
+    </div>
 
-      <div id="login-section" class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100">
-        <h2 class="text-xl font-bold mb-6 text-center">Selamat Datang di accountingsrg</h2>
+    <div class="glass p-8 rounded-3xl shadow-2xl">
         <div class="space-y-4">
-          <input type="text" id="username" placeholder="Username" class="w-full p-4 border rounded-xl focus:ring-2 focus:ring-[#b19053] outline-none">
-          <input type="password" id="password" placeholder="Password" class="w-full p-4 border rounded-xl focus:ring-2 focus:ring-[#b19053] outline-none">
-          <button onclick="handleLogin()" class="w-full btn-gold p-4 rounded-xl font-bold shadow-lg">MASUK SISTEM</button>
+            <input type="text" id="u" placeholder="Username" class="w-full p-4 rounded-xl border border-gray-100 outline-none focus:ring-2 focus:ring-[#b19053]">
+            <input type="password" id="p" placeholder="Password" class="w-full p-4 rounded-xl border border-gray-100 outline-none focus:ring-2 focus:ring-[#b19053]">
+            <button onclick="doLogin()" id="loginBtn" class="w-full btn-gold p-4 rounded-xl font-bold">MASUK KE SISTEM</button>
         </div>
-      </div>
+    </div>
+  </div>
 
-      <div id="dashboard-section" class="hidden space-y-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-white p-6 rounded-2xl shadow-md border-l-4 border-[#b19053]">
-                <p class="text-gray-500 text-sm">Total Laba Kotor</p>
-                <h3 id="total-laba" class="text-2xl font-bold text-[#06372d]">Rp 0</h3>
-            </div>
-            <div class="bg-white p-6 rounded-2xl shadow-md border-l-4 border-green-500">
-                <p class="text-gray-500 text-sm">Status Server</p>
-                <h3 class="text-2xl font-bold text-green-600">Terhubung</h3>
-            </div>
+  <div id="mainPage" class="hidden max-w-4xl mx-auto p-4">
+    <div class="srg-gradient p-8 rounded-3xl text-white shadow-xl mb-6 flex justify-between items-center">
+        <div>
+            <p class="text-xs opacity-70 uppercase tracking-widest">Dashboard Aktif</p>
+            <h2 id="userLabel" class="text-2xl font-bold">USER</h2>
         </div>
-        <button onclick="logout()" class="text-red-600 font-medium">Keluar dari Sistem</button>
-      </div>
+        <button onclick="location.reload()" class="bg-white/10 p-3 rounded-full hover:bg-white/20">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
+    </div>
+
+    <div id="dataContent" class="grid gap-4">
+        <!-- Data transaksi akan muncul di sini secara otomatis -->
+        <div class="glass p-6 rounded-2xl text-center">
+            <i class="fas fa-spinner fa-spin text-[#b19053] text-2xl mb-2"></i>
+            <p class="text-sm text-gray-500">Memuat data keuangan...</p>
+        </div>
     </div>
   </div>
 
   <script>
-    // KONFIGURASI JEMBATAN KE GOOGLE SHEETS
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyrgjHCpj70wsDbjVE9-zNYUhLdTel5fQEPr_t3CvNUOmkAexoV4dyxojTg3-zLdFDN/exec";
+    // GANTI DENGAN WEB APP URL ANDA
+    const API_URL = "https://script.google.com/macros/s/AKfycbyrgjHCpj70wsDbjVE9-zNYUhLdTel5fQEPr_t3CvNUOmkAexoV4dyxojTg3-zLdFDN/exec";
 
-    async function handleLogin() {
-      const u = document.getElementById('username').value;
-      const p = document.getElementById('password').value;
+    async function doLogin() {
+        const u = document.getElementById('u').value;
+        const p = document.getElementById('p').value;
+        const btn = document.getElementById('loginBtn');
 
-      if(!u || !p) return alert("Mohon isi semua bidang.");
+        if(!u || !p) return alert("Isi username & password");
+        
+        btn.innerText = "MENGOTENTIKASI...";
+        btn.disabled = true;
 
-      // Menembak data ke Google Apps Script
-      try {
-        // Karena pembatasan CORS, kita menggunakan metode pengiriman data yang aman
-        const response = await fetch(`${WEB_APP_URL}?action=login&u=${u}&p=${p}`);
-        const result = await response.json();
+        try {
+            const res = await fetch(`${API_URL}?action=checkLogin&payload=${encodeURIComponent(JSON.stringify({username:u, password:p}))}`);
+            const data = await res.json();
 
-        if(result.success) {
-          document.getElementById('login-section').classList.add('hidden');
-          document.getElementById('dashboard-section').classList.remove('hidden');
-          alert("Login Berhasil! Selamat datang di accountingsrg.");
-        } else {
-          alert("Gagal Masuk: Username atau Password salah.");
+            if(data.success) {
+                document.getElementById('loginPage').classList.add('hidden');
+                document.getElementById('mainPage').classList.remove('hidden');
+                document.getElementById('userLabel').innerText = u.toUpperCase();
+                loadData(data);
+            } else {
+                alert("Login Gagal!");
+                btn.innerText = "MASUK KE SISTEM";
+                btn.disabled = false;
+            }
+        } catch (e) {
+            alert("Gagal terhubung ke database.");
+            btn.disabled = false;
         }
-      } catch (err) {
-        // Jika muncul error CORS, ini normal di browser tertentu, kita akan menyesuaikan backend di langkah berikutnya jika perlu.
-        alert("Menghubungkan ke server...");
-        console.log(err);
-      }
     }
 
-    function logout() {
-      location.reload();
+    async function loadData(user) {
+        try {
+            const res = await fetch(`${API_URL}?action=getAppData&payload=${encodeURIComponent(JSON.stringify(user))}`);
+            const data = await res.json();
+            const container = document.getElementById('dataContent');
+            
+            if(data.transactions && data.transactions.length > 0) {
+                container.innerHTML = data.transactions.map(t => `
+                    <div class="glass p-5 rounded-2xl flex justify-between items-center">
+                        <div>
+                            <p class="text-[10px] text-[#b19053] font-bold uppercase">${t.TANGGAL || 'Tanpa Tanggal'}</p>
+                            <p class="font-bold text-gray-800">${t.KETERANGAN || 'Transaksi'}</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-xs text-gray-400 font-medium">Laba Kotor</p>
+                            <p class="font-bold text-[#06372d]">Rp ${t.LABA_KOTOR || 0}</p>
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                container.innerHTML = `<div class="glass p-10 rounded-2xl text-center text-gray-400">Belum ada data transaksi.</div>`;
+            }
+        } catch (e) {
+            console.error(e);
+        }
     }
   </script>
 </body>
