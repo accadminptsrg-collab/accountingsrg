@@ -85,6 +85,13 @@
       <p class="mt-4 font-black text-srg-green text-[10px] tracking-[0.4em] uppercase">SINKRONISASI DATA...</p>
   </div>
 
+  <div id="srgToast" class="fixed bottom-8 right-8 z-[1100] transform translate-x-[120%] transition-all duration-500 no-print">
+      <div class="capsule-card px-8 py-4 bg-white flex items-center space-x-4">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center bg-srg-green text-srg-gold shadow-md"><i class="fas fa-info"></i></div>
+          <div><p class="text-[10px] font-black text-srg-gold uppercase tracking-widest">Sistem</p><p id="toastMessage" class="text-xs font-bold text-slate-700 italic"></p></div>
+      </div>
+  </div>
+
   <!-- LOGIN SECTION -->
   <div id="loginSection" class="flex items-center justify-center min-h-screen p-6">
     <div class="capsule-card p-12 w-full max-w-md text-center">
@@ -102,12 +109,11 @@
             <input type="password" id="passInput" class="capsule-input w-full px-8 py-5 font-bold text-sm pr-14" placeholder="password">
             <button onclick="togglePass()" class="absolute right-6 top-[2.4rem] text-slate-400 hover:text-srg-gold"><i id="passIcon" class="fas fa-eye"></i></button>
         </div>
-        <!-- SIMPAN ID & KATA SANDI -->
         <div class="flex items-center space-x-3 ml-4">
             <input type="checkbox" id="remMe" class="w-4 h-4 rounded border-gray-300 text-srg-green focus:ring-srg-gold cursor-pointer">
             <label for="remMe" class="text-[9px] font-black text-slate-400 uppercase tracking-widest cursor-pointer italic">SIMPAN ID & KATA SANDI</label>
         </div>
-        <button onclick="handleLogin()" class="btn-premium w-full py-6 text-sm tracking-[0.2em] mt-4 shadow-xl">Masuk Sistem</button>
+        <button id="loginBtn" onclick="handleLogin()" class="btn-premium w-full py-6 text-sm tracking-[0.2em] mt-4 shadow-xl">Masuk Sistem</button>
       </div>
       <div class="mt-14 text-[9px] text-slate-300 font-black tracking-[0.4em] uppercase italic">© 2025 PT SUBUR RAYA GROUP</div>
     </div>
@@ -115,7 +121,7 @@
 
   <!-- MAIN CONTENT -->
   <div id="mainSection" class="hidden">
-    <!-- NAVBAR FLOATING DI ATAS (SESUAI INSTRUKSI) -->
+    <!-- NAVBAR FLOATING DI ATAS -->
     <div class="fixed top-8 left-1/2 -translate-x-1/2 z-[1000] w-[92%] max-w-2xl no-print">
         <nav class="nav-floating rounded-full p-2 flex justify-between items-center px-6">
           <div class="flex items-center space-x-3">
@@ -129,7 +135,7 @@
           </div>
           <div class="flex space-x-2">
             <button onclick="refreshData()" class="w-9 h-9 rounded-full bg-white text-srg-green flex items-center justify-center shadow-md border border-slate-100"><i class="fas fa-sync-alt text-[10px]"></i></button>
-            <button onclick="window.print()" class="w-9 h-9 rounded-full bg-white text-blue-500 flex items-center justify-center shadow-md border border-slate-100"><i class="fas fa-download text-[10px]"></i></button>
+            <button onclick="handleAppDownload()" class="w-9 h-9 rounded-full bg-white text-blue-500 flex items-center justify-center shadow-md border border-slate-100"><i class="fas fa-download text-[10px]"></i></button>
             <button onclick="handleLogout()" class="w-9 h-9 rounded-full bg-white text-red-500 flex items-center justify-center shadow-md border border-slate-100"><i class="fas fa-power-off text-[10px]"></i></button>
           </div>
         </nav>
@@ -212,7 +218,7 @@
               <div class="md:col-span-3"><button onclick="updateRekap()" class="btn-premium w-full py-5 text-xs italic tracking-widest">TAMPILKAN DATA</button></div>
             </div>
         </div>
-        <!-- RANGKUMAN KARTU SESUAI GAMBAR 2 -->
+        <!-- RANGKUMAN KARTU SESUAI GAMBAR 2 (5 KARTU) -->
         <div id="rekapStats" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6"></div>
         
         <div class="capsule-card overflow-hidden bg-white/95 border-white shadow-2xl">
@@ -238,13 +244,21 @@
             return result;
         } catch (e) {
             showLoading(false);
-            alert("Koneksi gagal.");
+            showToast("Gagal terhubung ke database.");
             return { success: false };
         }
     }
 
     const fmt = (v) => "Rp " + new Intl.NumberFormat('id-ID').format(Math.floor(v || 0));
     function showLoading(s) { document.getElementById('loadingOverlay').classList.toggle('hidden', !s); }
+    
+    function showToast(m) { 
+      const t = document.getElementById('srgToast'); 
+      document.getElementById('toastMessage').innerText = m; 
+      t.classList.remove('translate-x-[120%]'); 
+      setTimeout(()=>t.classList.add('translate-x-[120%]'), 4000); 
+    }
+
     function getMitraName(i) { if(i===1) return "ALBAROKAHSHOP30"; if(i===2) return "RADIATOR TUNGGAKSEMI"; return "MITRA "+i; }
 
     window.onload = () => {
@@ -259,18 +273,25 @@
     async function handleLogin() {
         const u = document.getElementById('userInput').value.trim(), p = document.getElementById('passInput').value.trim();
         const rem = document.getElementById('remMe').checked;
+        if(!u || !p) return showToast("Mohon isi username dan password.");
+
+        showToast("Otentikasi sedang dicoba...");
         const res = await callAPI("checkLogin", { u, p });
         if(res.success) {
             user = res;
             if(rem) { localStorage.setItem('srg_u', u); localStorage.setItem('srg_p', p); }
             else { localStorage.removeItem('srg_u'); localStorage.removeItem('srg_p'); }
+            
+            showToast("Berhasil login! Menyiapkan dashboard...");
             document.getElementById('loginSection').classList.add('hidden');
             document.getElementById('mainSection').classList.remove('hidden');
             document.getElementById('userDisplay').innerText = user.username;
             document.getElementById('roleDisplay').innerText = user.role.toUpperCase();
             if(user.role === 'admin') document.getElementById('nav-rekap').classList.remove('hidden');
             setupUI(); refreshData();
-        } else alert("Login Gagal!");
+        } else {
+            showToast("Akses Ditolak: Kredensial salah.");
+        }
     }
 
     function setupUI() {
@@ -319,7 +340,7 @@
         });
         const margin = s.o > 0 ? (s.lk / s.o) * 100 : 0;
 
-        const config = [
+        let config = [
             {l:"TOTAL OMSET", v:s.o, t:"card-soft-gold", x:"text-slate-800"},
             {l:"BIAYA PRODUKSI", v:s.bp, t:"card-soft-red", x:"text-red-700"},
             {l:"BIAYA OPERASIONAL", v:s.bo, t:"card-soft-gold", x:"text-slate-500"},
@@ -330,6 +351,11 @@
             {l:"PEMBAGIAN PT", v:s.pt, t:"card-pekat-green", x:"text-srg-gold"},
             {l:"PEMBAGIAN MITRA", v:s.mtr, t:"card-soft-orange", x:"text-orange-700"}
         ];
+
+        // HAPUS MARGIN UNTUK MITRA SESUAI INSTRUKSI
+        if (user.role === 'mitra') {
+            config = config.filter(c => !c.isP);
+        }
 
         grid.innerHTML = config.map(c => `
             <div class="capsule-card p-10 ${c.t} text-center">
@@ -353,11 +379,11 @@
     async function submitData() {
         const d = { tanggal: document.getElementById('f-tgl').value, mitra: document.getElementById('f-mtr').value, omset: parseFloat(document.getElementById('f-oms').value || 0), bProduksi: parseFloat(document.getElementById('f-mod').value || 0), bOperasional: parseFloat(document.getElementById('f-ops').value || 0), keterangan: document.getElementById('f-ket').value };
         const res = await callAPI("submitTransaction", d);
-        if(res.success) { alert("Data Berhasil Disimpan!"); refreshData(); switchPage('dashboard'); }
+        if(res.success) { showToast("Data Berhasil Disimpan!"); refreshData(); switchPage('dashboard'); }
     }
 
     async function deleteTx(id) {
-        if(confirm("Hapus data ini?")) { const res = await callAPI("deleteTransaction", { id }); if(res.success) refreshData(); }
+        if(confirm("Hapus data ini?")) { const res = await callAPI("deleteTransaction", { id }); if(res.success) { showToast("Data Dihapus."); refreshData(); } }
     }
 
     function switchPage(p) {
@@ -417,7 +443,21 @@
     }
 
     function togglePass() { const p = document.getElementById('passInput'), i = document.getElementById('passIcon'); p.type = p.type === 'password' ? 'text' : 'password'; i.className = p.type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash'; }
-    function handleLogout() { location.reload(); }
+    
+    function handleLogout() { 
+      showToast("Mengakhiri sesi...");
+      setTimeout(() => location.reload(), 1000); 
+    }
+
+    function handleAppDownload() {
+      const modal = {
+        title: "Instal Aplikasi SRG",
+        message: "Untuk pengalaman terbaik, silakan instal aplikasi di perangkat Anda:<br><br><b>Android/Chrome:</b> Klik ikon 'tiga titik' lalu pilih 'Install App' atau 'Add to Home Screen'.<br><b>iOS/Safari:</b> Klik tombol 'Share' lalu pilih 'Add to Home Screen'.",
+      };
+      // Reuse of a simple alert for download instructions
+      alert(modal.message.replace(/<br>/g, '\n').replace(/<b>/g, '').replace(/<\/b>/g, ''));
+    }
+
     function liveCalc() { /* visual sync jika perlu */ }
   </script>
 </body>
